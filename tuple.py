@@ -17,6 +17,12 @@ class Tuple():
             float_equal(self.z, o.z) and \
             float_equal(self.w, o.w)
 
+    def __add__(self, other):
+        return Tuple(self.x + other.x,
+                     self.y + other.y,
+                     self.z + other.z,
+                     self.w + other.w)
+
 
 class Point(Tuple):
     def __init__(self, x=None, y=None, z=None, w=None):
