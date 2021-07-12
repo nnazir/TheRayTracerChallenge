@@ -52,3 +52,20 @@ def test_subtract_two_vectors():
     v1 = tuple.vector(3, 2, 1)
     v2 = tuple.vector(5, 6, 7)
     assert v1 - v2 == tuple.vector(-2, -4, -6)
+
+
+def test_subtract_vector_from_zero():
+    '''
+    Scenario: Subtracting a vector from the zero vector
+    '''
+    zero = tuple.vector(0, 0, 0)
+    v = tuple.vector(1, -2, 3)
+    assert zero - v == tuple.vector(-1, 2, -3)
+
+def test_negate_tuple():
+    '''
+    Scenario: Negating a tuple
+    '''
+    a = tuple.Tuple(1, -2, 3, -4)
+    assert -a == tuple.Tuple(-1, 2, -3, 4)
+    
