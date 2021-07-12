@@ -26,12 +26,26 @@ class Tuple():
 
 class Point(Tuple):
     def __init__(self, x=None, y=None, z=None, w=None):
-        super().__init__(x, y, z, 0)
+        super().__init__(x, y, z, 1)
+
+    def __add__(self, other):
+        t = super().__add__(other)
+        if t.w == 0:
+            return Vector(t.x, t.y, t.z, t.w)
+        elif t.w == 1:
+            return Point(t.x, t.y, t.z, t.w)
 
 
 class Vector(Tuple):
     def __init__(self, x=None, y=None, z=None, w=None):
-        super().__init__(x, y, z, 1)
+        super().__init__(x, y, z, 0)
+
+    def __add__(self, other):
+        t = super().__add__(other)
+        if t.w == 0:
+            return Vector(t.x, t.y, t.z, t.w)
+        elif t.w == 1:
+            return Point(t.x, t.y, t.z, t.w)
 
 
 def point(x, y, z):
