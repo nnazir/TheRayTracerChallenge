@@ -32,6 +32,17 @@ class Tuple():
     def __neg__(self):
         return Tuple(-self.x, -self.y, -self.z, -self.w)
 
+    def __mul__(self, other):
+        return Tuple(self.x * other,
+                     self.y * other,
+                     self.z * other,
+                     self.w * other)
+
+    def __truediv__(self, other):
+        return Tuple(self.x / other,
+                     self.y / other,
+                     self.z / other,
+                     self.w / other)
 
 def point(x, y, z):
     # return Point(x, y, z)

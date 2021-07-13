@@ -62,10 +62,25 @@ def test_subtract_vector_from_zero():
     v = tuple.vector(1, -2, 3)
     assert zero - v == tuple.vector(-1, 2, -3)
 
+
 def test_negate_tuple():
     '''
     Scenario: Negating a tuple
     '''
     a = tuple.Tuple(1, -2, 3, -4)
     assert -a == tuple.Tuple(-1, 2, -3, 4)
-    
+
+
+def test_multiply_tuple_by_scalar():
+    a = tuple.Tuple(1, -2, 3, -4)
+    assert a * 3.5 == tuple.Tuple(3.5, -7, 10.5, -14)
+
+
+def test_multiply_tuple_by_fraction():
+    a = tuple.Tuple(1, -2, 3, -4)
+    assert a * 0.5 == tuple.Tuple(0.5, -1, 1.5, -2)
+
+
+def test_divide_tuple_by_scalar():
+    a = tuple.Tuple(1, -2, 3, -4)
+    assert a / 2 == tuple.Tuple(0.5, -1, 1.5, -2)
