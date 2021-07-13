@@ -72,15 +72,24 @@ def test_negate_tuple():
 
 
 def test_multiply_tuple_by_scalar():
+    '''
+    Scenario: Multiplying a tuple by a scalar
+    '''
     a = tuple.Tuple(1, -2, 3, -4)
     assert a * 3.5 == tuple.Tuple(3.5, -7, 10.5, -14)
 
 
 def test_multiply_tuple_by_fraction():
+    '''
+    Scenario: Multiplying a tuple by a fraction
+    '''
     a = tuple.Tuple(1, -2, 3, -4)
     assert a * 0.5 == tuple.Tuple(0.5, -1, 1.5, -2)
 
 
 def test_divide_tuple_by_scalar():
+    '''
+    Dividing a tuple by a scalar
+    '''
     a = tuple.Tuple(1, -2, 3, -4)
     assert a / 2 == tuple.Tuple(0.5, -1, 1.5, -2)
