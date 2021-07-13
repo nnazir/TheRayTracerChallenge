@@ -1,4 +1,5 @@
 from utils import float_equal
+import math
 
 
 class Tuple():
@@ -43,6 +44,13 @@ class Tuple():
                      self.y / other,
                      self.z / other,
                      self.w / other)
+
+    def magnitude(self):
+        return math.sqrt(self.x ** 2 +
+                         self.y ** 2 +
+                         self.z ** 2 +
+                         self.w ** 2)
+
 
 def point(x, y, z):
     # return Point(x, y, z)

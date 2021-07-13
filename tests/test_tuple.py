@@ -1,5 +1,6 @@
 import pytest
 import tuple
+import math
 
 
 def test_point():
@@ -93,3 +94,43 @@ def test_divide_tuple_by_scalar():
     '''
     a = tuple.Tuple(1, -2, 3, -4)
     assert a / 2 == tuple.Tuple(0.5, -1, 1.5, -2)
+
+
+def test_compute_magnitude_of_vector_1_0_0():
+    '''
+    Scenario: Computing the magnitude of vector(1, 0, 0)
+    '''
+    v = tuple.vector(1, 0, 0)
+    assert v.magnitude() == 1
+
+
+def test_compute_magnitude_of_vector_0_1_0():
+    '''
+    Scenario: Computing the magnitude of vector(0, 1, 0)
+    '''
+    v = tuple.vector(0, 1, 0)
+    assert v.magnitude() == 1
+
+
+def test_compute_magnitude_of_vector_0_0_1():
+    '''
+    Scenario: Computing the magnitude of vector(0, 0, 1)
+    '''
+    v = tuple.vector(0, 0, 1)
+    assert v.magnitude() == 1
+
+
+def test_compute_magnitude_of_vector_1_2_3():
+    '''
+    Scenario: Computing the magnitude of vector(1, 2, 3)
+    '''
+    v = tuple.vector(1, 2, 3)
+    assert v.magnitude() == math.sqrt(14)
+
+
+def test_compute_magnitude_of_vector_negative_1_2_3():
+    '''
+    Scenario: Computing the magnitude of vector(-1, -2, -3)
+    '''
+    v = tuple.vector(-1, -2, -3)
+    assert v.magnitude() == math.sqrt(14)
