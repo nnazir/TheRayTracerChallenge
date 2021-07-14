@@ -51,6 +51,13 @@ class Tuple():
                          self.z ** 2 +
                          self.w ** 2)
 
+    def normalize(self):
+        return Tuple(self.x / self.magnitude(),
+                     self.y / self.magnitude(),
+                     self.z / self.magnitude(),
+                     self.w / self.magnitude()
+                     )
+
 
 def point(x, y, z):
     # return Point(x, y, z)

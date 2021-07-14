@@ -134,3 +134,28 @@ def test_compute_magnitude_of_vector_negative_1_2_3():
     '''
     v = tuple.vector(-1, -2, -3)
     assert v.magnitude() == math.sqrt(14)
+
+
+def test_normalize_vector_1():
+    '''
+    Scenario: Normalizing vector(4,0, 0) gives (1, 0, 0)
+    '''
+    v = tuple.vector(4, 0, 0)
+    assert v.normalize() == tuple.vector(1, 0, 0)
+
+
+def test_normalize_vector_2():
+    '''
+    Scenario: Normalizing vector(1, 2, 3)
+    '''
+    v = tuple.vector(1, 2, 3)
+    assert v.normalize() == tuple.vector(0.26726, 0.53452, 0.80178)
+
+
+def test_magnitude_of_normalized_vector():
+    '''
+    Scenario: The magnitude of a normalized vector
+    '''
+    v = tuple.vector(1, 2, 3)
+    norm = v.normalize()
+    assert norm.magnitude() == 1
