@@ -1,4 +1,4 @@
-from utils import float_equal
+from trtc.utils import float_equal
 import math
 
 
