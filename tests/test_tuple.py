@@ -162,6 +162,19 @@ def test_magnitude_of_normalized_vector():
 
 
 def test_dot_product_of_two_tuples():
+    '''
+    Scenario: The dot product of two tuples
+    '''
     a = tuple.vector(1, 2, 3)
     b = tuple.vector(2, 3, 4)
     assert a.dot(b) == 20
+
+
+def test_cross_product_of_two_vectors():
+    '''
+    Scenario: The cross product of two vectors
+    '''
+    a = tuple.vector(1, 2, 3)
+    b = tuple.vector(2, 3, 4)
+    assert a.cross(b) == tuple.vector(-1, 2, -1)
+    assert b.cross(a) == tuple.vector(1, -2, 1)
