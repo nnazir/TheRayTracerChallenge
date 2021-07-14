@@ -68,12 +68,38 @@ class Tuple():
                       self.x * other.y - self.y * other.x
                       )
 
+
 class Color(Tuple):
     def __init__(self, r, g, b, w):
         self.red = r
         self.green = g
         self.blue = b
         self.w = w
+
+    @property
+    def red(self):
+        return self.x
+
+    @red.setter
+    def red(self, value):
+        self.x = value
+
+    @property
+    def green(self):
+        return self.y
+
+    @green.setter
+    def green(self, value):
+        self.y = value
+
+    @property
+    def blue(self):
+        return self.z
+
+    @blue.setter
+    def blue(self, value):
+        self.z = value
+
 
 def point(x, y, z):
     # return Point(x, y, z)
@@ -86,4 +112,4 @@ def vector(x, y, z):
 
 
 def color(r, g, b):
-    return Color(r, g, b, 2)
+    return Color(r, g, b, 0)

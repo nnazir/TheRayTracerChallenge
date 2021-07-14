@@ -188,3 +188,29 @@ def test_colors_are_tuples():
     assert c.red == -0.5
     assert c.green == 0.4
     assert c.blue == 1.7
+
+
+def test_adding_colors():
+    '''
+    Scenario: Adding colors
+    '''
+    c1 = color(0.9, 0.6, 0.75)
+    c2 = color(0.7, 0.1, 0.25)
+    assert c1 + c2 == color(1.6, 0.7, 1.0)
+
+
+def test_subtracting_colors():
+    '''
+    Scenario: Subtracting colors
+    '''
+    c1 = color(0.9, 0.6, 0.75)
+    c2 = color(0.7, 0.1, 0.25)
+    assert c1 - c2 == color(0.2, 0.5, 0.5)
+
+
+def test_multiply_color_by_scalar():
+    '''
+    Scenario: Multiplying a color by a scalar
+    '''
+    c = color(0.2, 0.3, 0.4)
+    assert c * 2 == color(0.4, 0.6, 0.8)
