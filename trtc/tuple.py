@@ -68,6 +68,9 @@ class Tuple():
                       self.x * other.y - self.y * other.x
                       )
 
+class Color(Tuple):
+    def __init__(self, x, y, z, w):
+        super().__init__(x=x, y=y, z=z, w=w)
 
 def point(x, y, z):
     # return Point(x, y, z)
@@ -77,3 +80,7 @@ def point(x, y, z):
 def vector(x, y, z):
     # return Vector(x, y, z)
     return Tuple(x, y, z, 0)
+
+
+def color(r, g, b):
+    return Tuple(r, g, b, 2)
