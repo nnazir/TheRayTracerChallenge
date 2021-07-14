@@ -1,6 +1,6 @@
 import pytest
 import math
-from trtc import Tuple, point, vector
+from trtc import Tuple, point, vector, color
 
 
 def test_point():
@@ -180,4 +180,11 @@ def test_cross_product_of_two_vectors():
     assert b.cross(a) == vector(1, -2, 1)
 
 
-
+def test_colors_are_tuples():
+    '''
+    Scenario: Colors are (red, green, blue) tuples
+    '''
+    c = color(-0.5, 0.4, 1.7)
+    assert c.red == -0.5
+    assert c.green == 0.4
+    assert c.blue == 1.7
