@@ -159,3 +159,9 @@ def test_magnitude_of_normalized_vector():
     v = tuple.vector(1, 2, 3)
     norm = v.normalize()
     assert norm.magnitude() == 1
+
+
+def test_dot_product_of_two_tuples():
+    a = tuple.vector(1, 2, 3)
+    b = tuple.vector(2, 3, 4)
+    assert a.dot(b) == 20
