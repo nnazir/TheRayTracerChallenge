@@ -1,6 +1,5 @@
 from trtc.tuple import point, vector
 
-
 class projectile():
     def __init__(self, p, v) -> None:
         self.position = p
