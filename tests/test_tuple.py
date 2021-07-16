@@ -214,3 +214,12 @@ def test_multiply_color_by_scalar():
     '''
     c = color(0.2, 0.3, 0.4)
     assert c * 2 == color(0.4, 0.6, 0.8)
+
+
+def test_multiplying_colors():
+    '''
+    Scenario: Multiplying colors
+    '''
+    c1 = color(1, 0.2, 0.4)
+    c2 = color(0.9, 1, 0.1)
+    assert c1 * c2 == color(0.9, 0.2, 0.04)

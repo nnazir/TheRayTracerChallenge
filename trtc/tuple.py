@@ -1,4 +1,4 @@
-from trtc.utils import float_equal
+from . import utils
 import math
 
 
@@ -13,10 +13,10 @@ class Tuple():
         return repr(f'{self.x}, {self.y}, {self.z}, {self.w}')
 
     def __eq__(self, o: object) -> bool:
-        return float_equal(self.x, o.x) and \
-            float_equal(self.y, o.y) and \
-            float_equal(self.z, o.z) and \
-            float_equal(self.w, o.w)
+        return utils.float_equal(self.x, o.x) and \
+            utils.float_equal(self.y, o.y) and \
+            utils.float_equal(self.z, o.z) and \
+            utils.float_equal(self.w, o.w)
 
     def __add__(self, other):
         return Tuple(self.x + other.x,
@@ -99,6 +99,18 @@ class Color(Tuple):
     @blue.setter
     def blue(self, value):
         self.z = value
+
+    def __mul__(self, other):
+        if type(other) == int:
+            return Color(self.x * other,
+                         self.y * other,
+                         self.z * other,
+                         self.w * other)
+        else:
+            return Color(self.x * other.x,
+                         self.y * other.y,
+                         self.z * other.z,
+                         self.w * other.w)
 
 
 def point(x, y, z):
