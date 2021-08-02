@@ -123,3 +123,25 @@ def test_multiply_identity_matrix_by_tuple():
     """
     a = Tuple(1, 2, 3, 4)
     assert Matrix.identity_matrix() * a == a
+
+
+def test_transpose_matrix():
+    """
+    Scenario: Transposing a matrix
+    """
+    A = Matrix([[0, 9, 3, 0],
+                [9, 8, 0, 8],
+                [1, 8, 5, 3],
+                [0, 0, 5, 8]])
+    assert A.transpose() == Matrix([[0, 9, 1, 0],
+                                    [9, 8, 8, 0],
+                                    [3, 0, 5, 5],
+                                    [0, 8, 3, 8]])
+
+
+def test_transpose_identity_matrix():
+    """
+    Scenario: Transposing the identity matrix
+    """
+    A = Matrix.identity_matrix()
+    assert A.transpose() == Matrix.identity_matrix()
