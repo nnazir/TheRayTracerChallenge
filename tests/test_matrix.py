@@ -145,3 +145,11 @@ def test_transpose_identity_matrix():
     """
     A = Matrix.identity_matrix()
     assert A.transpose() == Matrix.identity_matrix()
+
+
+def test_calculate_determinant_2x2_matrix():
+    """
+    Scenario: Calculating the determinant of a 2x2 matrix
+    """
+    A = Matrix([[1, 5], [-3, 2]])
+    assert A.determinant() == 17
