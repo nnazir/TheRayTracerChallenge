@@ -1,4 +1,4 @@
-from trtc import Matrix, Tuple
+from trtc import Matrix, Tuple, matrix
 
 
 def test_construct_4x4_matrix():
@@ -174,7 +174,7 @@ def test_submatrix_of_4x4_matrix():
                 [-1, 0, 8, 2],
                 [-7, 1, -1, 1]
                 ])
-    A.submatrix(2, 1) == Matrix([[-6, 1, 6], [-8, 8, 6], [-7, -1, 1]])
+    assert A.submatrix(2, 1) == Matrix([[-6, 1, 6], [-8, 8, 6], [-7, -1, 1]])
 
 
 def test_minor_3x3_matrix():
@@ -194,5 +194,28 @@ def test_cofactor_3x3_matrix():
     A = Matrix([[3, 5, 0], [2, -1, -7], [6, -1, 5]])
     assert A.minor(0, 0) == -12
     assert A.cofactor(0, 0) == -12
-    A.minor(1, 0) == 25
-    A.cofactor(1, 0) == -25
+    assert A.minor(1, 0) == 25
+    assert A.cofactor(1, 0) == -25
+
+
+def test_determinant_3x3_matrix():
+    """
+    Scenario: Calculating the determinant of a 3x3 matrix
+    """
+    A = Matrix([[1, 2, 6], [-5, 8, -4], [2, 6, 4]])
+    assert A.cofactor(0, 0) == 56
+    assert A.cofactor(0, 1) == 12
+    assert A.cofactor(0, 2) == -46
+    assert A.determinant() == -196
+
+
+def test_determinant_of_4x4_matrix():
+    """
+    Scenario: Calculating the determinant of a 4x4 matrix
+    """
+    A = Matrix([[-2, -8, 3, 5], [-3, 1, 7, 3], [1, 2, -9, 6], [-6, 7, 7, -9]])
+    assert A.cofactor(0, 0) == 690
+    assert A.cofactor(0, 1) == 447
+    assert A.cofactor(0, 2) == 210
+    assert A.cofactor(0, 3) == 51
+    assert A.determinant() == -4071

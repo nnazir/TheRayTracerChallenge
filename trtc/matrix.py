@@ -27,6 +27,9 @@ class Matrix():
     def list(self):
         return self.matrix
 
+    def size(self):
+        return len(self.matrix)
+
     @staticmethod
     def identity_matrix():
         return Matrix([[1, 0, 0, 0],
@@ -48,8 +51,14 @@ class Matrix():
         )
 
     def determinant(self):
-        return self.matrix[0][0] * self.matrix[1][1] - \
-            self.matrix[0][1] * self.matrix[1][0]
+        if self.size() == 2:
+            det = self.matrix[0][0] * self.matrix[1][1] - \
+                self.matrix[0][1] * self.matrix[1][0]
+        else:
+            det = 0
+            for column in range(self.size()):
+                det = det + self.matrix[0][column] * self.cofactor(0, column)
+        return det
 
     def submatrix(self, row, column):
         m = copy.deepcopy(self.matrix)
