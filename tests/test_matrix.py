@@ -153,3 +153,25 @@ def test_calculate_determinant_2x2_matrix():
     """
     A = Matrix([[1, 5], [-3, 2]])
     assert A.determinant() == 17
+
+
+def test_submatrix_of_3x3_matris():
+    """
+    Scenario: A submatrix of a 3x3 matrix is a 2x2 matrix
+    """
+    A = Matrix([[1, 5, 0],
+                [-3, 2, 7],
+                [0, 6, -3]])
+    assert A.submatrix(0, 2) == Matrix([[-3, 2], [0, 6]])
+
+
+def test_submatrix_of_4x4_matrix():
+    """
+    Scenario: A submatrix of a 4x4 matrix is a 3x3 matrix
+    """
+    A = Matrix([[-6, 1, 1, 6],
+                [-8, 5, 8, 6],
+                [-1, 0, 8, 2],
+                [-7, 1, -1, 1]
+                ])
+    A.submatrix(2, 1) == Matrix([[-6, 1, 6], [-8, 8, 6], [-7, -1, 1]])

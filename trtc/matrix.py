@@ -1,6 +1,7 @@
 from trtc.tuple import Tuple
-import numpy as np
 from trtc.utils import float_equal
+import numpy as np
+import copy
 
 
 class Matrix():
@@ -49,3 +50,10 @@ class Matrix():
     def determinant(self):
         return self.matrix[0][0] * self.matrix[1][1] - \
             self.matrix[0][1] * self.matrix[1][0]
+
+    def submatrix(self, x, y):
+        m = copy.deepcopy(self.matrix)
+        del m[x]
+        for i in m:
+            del i[y]
+        return Matrix(m)
