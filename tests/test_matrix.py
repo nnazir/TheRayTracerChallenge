@@ -175,3 +175,13 @@ def test_submatrix_of_4x4_matrix():
                 [-7, 1, -1, 1]
                 ])
     A.submatrix(2, 1) == Matrix([[-6, 1, 6], [-8, 8, 6], [-7, -1, 1]])
+
+
+def test_minor_3x3_matrix():
+    """
+    Calculating a minor of a 3x3 matrix
+    """
+    A = Matrix([[3, 5, 0], [2, -1, -7], [6, -1, 5]])
+    B = A.submatrix(1, 0)
+    assert B.determinant() == 25
+    assert A.minor(1, 0) == 25

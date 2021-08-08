@@ -51,9 +51,14 @@ class Matrix():
         return self.matrix[0][0] * self.matrix[1][1] - \
             self.matrix[0][1] * self.matrix[1][0]
 
-    def submatrix(self, x, y):
+    def submatrix(self, row, column):
         m = copy.deepcopy(self.matrix)
-        del m[x]
+        del m[row]
         for i in m:
-            del i[y]
+            del i[column]
         return Matrix(m)
+
+    def minor(self, row, column):
+        # return self.submatrix(row, column).determinant()
+        t = self.submatrix(row, column)
+        return t.determinant()
