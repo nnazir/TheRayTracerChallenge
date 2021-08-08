@@ -179,9 +179,20 @@ def test_submatrix_of_4x4_matrix():
 
 def test_minor_3x3_matrix():
     """
-    Calculating a minor of a 3x3 matrix
+    Scenario: Calculating a minor of a 3x3 matrix
     """
     A = Matrix([[3, 5, 0], [2, -1, -7], [6, -1, 5]])
     B = A.submatrix(1, 0)
     assert B.determinant() == 25
     assert A.minor(1, 0) == 25
+
+
+def test_cofactor_3x3_matrix():
+    """
+    Scenario: Calculating a cofactor of a 3x3 matrix
+    """
+    A = Matrix([[3, 5, 0], [2, -1, -7], [6, -1, 5]])
+    assert A.minor(0, 0) == -12
+    assert A.cofactor(0, 0) == -12
+    A.minor(1, 0) == 25
+    A.cofactor(1, 0) == -25

@@ -62,3 +62,8 @@ class Matrix():
         # return self.submatrix(row, column).determinant()
         t = self.submatrix(row, column)
         return t.determinant()
+
+    def cofactor(self, row, column):
+        if ((row + column) % 2 != 0):
+            return -self.minor(row, column)
+        return self.minor(row, column)
