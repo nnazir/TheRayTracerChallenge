@@ -286,3 +286,13 @@ def test_calculate_matrix_inverse_3():
         [-0.02901, -0.14630, -0.10926, 0.12963],
         [0.17778, 0.06667, -0.26667, 0.33333]
     ])
+
+
+def test_multiply_product_by_inverse():
+    """
+    Scenario: Multiplying a product by its inverse
+    """
+    A = Matrix([[3, -9, 7, 3], [3, -8, 2, -9], [-4, 4, 4, 1], [-6, 5, -1, 1]])
+    B = Matrix([[8, 2, 2, 2], [3, -1, 7, 0], [7, 0, 5, 4], [6, -2, 0, 5]])
+    C = A * B
+    assert C * B.inverse() == A
