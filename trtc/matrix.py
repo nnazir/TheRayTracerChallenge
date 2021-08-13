@@ -76,3 +76,19 @@ class Matrix():
         if ((row + column) % 2 != 0):
             return -self.minor(row, column)
         return self.minor(row, column)
+
+    def is_invertible(self):
+        if self.determinant() == 0:
+            return False
+        return True
+
+    def inverse(self):
+        if not self.is_invertible():
+            return None
+        m2 = Matrix([[0 for i in range(self.size())]
+                     for j in range(self.size())])
+        det = self.determinant()
+        for row in range(self.size()):
+            for column in range(self.size()):
+                m2.matrix[column][row] = self.cofactor(row, column)/det
+        return m2
