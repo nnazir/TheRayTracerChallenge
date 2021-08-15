@@ -117,3 +117,17 @@ class Matrix():
                        [0, math.cos(r), - math.sin(r), 0],
                        [0, math.sin(r), math.cos(r), 0],
                        [0, 0, 0, 1]])
+
+    @classmethod
+    def rotation_y(cls, r):
+        return Matrix([[math.cos(r), 0, math.sin(r), 0],
+                       [0, 1, 0, 0],
+                       [-math.sin(r), 0, math.cos(r), 0],
+                      [0, 0, 0, 1]])
+
+    @classmethod
+    def rotation_z(cls, r):
+        return Matrix([[math.cos(r), -math.sin(r), 0, 0],
+                       [math.sin(r), math.cos(r), 0, 0],
+                       [0, 0, 1, 0],
+                       [0, 0, 0, 1]])

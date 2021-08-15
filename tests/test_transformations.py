@@ -87,3 +87,25 @@ def test_inverse_x_rotation_rotates_opposite():
     half_quarter = Matrix.rotation_x(math.pi / 4)
     inv = half_quarter.inverse()
     assert inv * p == point(0, math.sqrt(2)/2, -math.sqrt(2)/2)
+
+
+def test_rotate_point_around_y_axis():
+    """
+    Scenario: Rotating a point around the y axis
+    """
+    p = point(0, 0, 1)
+    half_quarter = Matrix.rotation_y(math.pi / 4)
+    full_quarter = Matrix.rotation_y(math.pi / 2)
+    assert half_quarter * p == point(math.sqrt(2)/2, 0, math.sqrt(2)/2)
+    assert full_quarter * p == point(1, 0, 0)
+
+
+def test_rotate_point_around_z_axis():
+    """
+    Scenario: Rotating a point around the z axis
+    """
+    p = point(0, 1, 0)
+    half_quarter = Matrix.rotation_z(math.pi / 4)
+    full_quarter = Matrix.rotation_z(math.pi / 2)
+    assert half_quarter * p == point(-math.sqrt(2)/2, math.sqrt(2)/2, 0)
+    assert full_quarter * p == point(-1, 0, 0)
