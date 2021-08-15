@@ -2,6 +2,7 @@ from trtc.tuple import Tuple
 from trtc.utils import float_equal
 import numpy as np
 import copy
+import math
 
 
 class Matrix():
@@ -52,9 +53,10 @@ class Matrix():
 
     def determinant(self):
         if self.size() == 2:
-            det = self.matrix[0][0] * self.matrix[1][1] - \
+            return self.matrix[0][0] * self.matrix[1][1] - \
                 self.matrix[0][1] * self.matrix[1][0]
         else:
+            print(self.matrix)
             det = 0
             for column in range(self.size()):
                 det = det + self.matrix[0][column] * self.cofactor(0, column)
@@ -108,3 +110,10 @@ class Matrix():
         m.matrix[1][1] = y
         m.matrix[2][2] = z
         return(m)
+
+    @classmethod
+    def rotation_x(cls, r):
+        return Matrix([[1, 0, 0, 0],
+                       [0, math.cos(r), - math.sin(r), 0],
+                       [0, math.sin(r), math.cos(r), 0],
+                       [0, 0, 0, 1]])
