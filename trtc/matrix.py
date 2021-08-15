@@ -94,9 +94,17 @@ class Matrix():
         return m2
 
     @classmethod
-    def translation(cls, x,y,z):
+    def translation(cls, x, y, z):
         m = Matrix.identity_matrix()
         m.matrix[0][3] = x
         m.matrix[1][3] = y
         m.matrix[2][3] = z
+        return(m)
+
+    @classmethod
+    def scaling(cls, x, y, z):
+        m = Matrix.identity_matrix()
+        m.matrix[0][0] = x
+        m.matrix[1][1] = y
+        m.matrix[2][2] = z
         return(m)
