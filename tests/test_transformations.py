@@ -55,3 +55,12 @@ def test_multiply_by_inverse_of_scaling_matrix():
     inv = transform.inverse()
     v = vector(-4, 6, 8)
     assert inv * v == vector(-2, 2, 2)
+
+
+def test_reflect_scaling_negative_value():
+    """
+    Scenario: Reflection is scaling by a negative value
+    """
+    transform = Matrix.scaling(-1, 1, 1)
+    p = point(2, 3, 4)
+    assert transform * p == point(-2, 3, 4)
