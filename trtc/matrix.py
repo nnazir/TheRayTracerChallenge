@@ -131,3 +131,12 @@ class Matrix():
                        [math.sin(r), math.cos(r), 0, 0],
                        [0, 0, 1, 0],
                        [0, 0, 0, 1]])
+
+    @classmethod
+    def shearing(cls, xy, xz, yx, yz, zx, zy):
+        return Matrix(
+            [[1, xy, xz, 0],
+             [yx, 1, yz, 0],
+             [zx, zy, 1, 0],
+             [0, 0, 0, 1]]
+        )

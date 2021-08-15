@@ -109,3 +109,57 @@ def test_rotate_point_around_z_axis():
     full_quarter = Matrix.rotation_z(math.pi / 2)
     assert half_quarter * p == point(-math.sqrt(2)/2, math.sqrt(2)/2, 0)
     assert full_quarter * p == point(-1, 0, 0)
+
+
+def test_shearing_x_to_y():
+    """
+    Scenario: A shearing transformation moves x in proportion to y
+    """
+    transform = Matrix.shearing(1, 0, 0, 0, 0, 0)
+    p = point(2, 3, 4)
+    assert transform * p == point(5, 3, 4)
+
+
+def test_shearing_x_to_z():
+    """
+    Scenario: A shearing transformation moves x in proportion to z
+    """
+    transform = Matrix.shearing(0, 1, 0, 0, 0, 0)
+    p = point(2, 3, 4)
+    assert transform * p == point(6, 3, 4)
+
+
+def test_shearing_y_to_x():
+    """
+    Scenario: A shearing transformation moves y in proportion to x
+    """
+    transform = Matrix.shearing(0, 0, 1, 0, 0, 0)
+    p = point(2, 3, 4)
+    assert transform * p == point(2, 5, 4)
+
+
+def test_shearing_y_to_z():
+    """
+    Scenario: A shearing transformation moves y in proportion to z
+    """
+    transform = Matrix.shearing(0, 0, 0, 1, 0, 0)
+    p = point(2, 3, 4)
+    assert transform * p == point(2, 7, 4)
+
+
+def test_shearing_z_to_x():
+    """
+    Scenario: A shearing transformation moves z in proportion to x
+    """
+    transform = Matrix.shearing(0, 0, 0, 0, 1, 0)
+    p = point(2, 3, 4)
+    assert transform * p == point(2, 3, 6)
+
+
+def test_shearing_z_to_y():
+    """
+    Scenario: A shearing transformation moves x in proportion to y
+    """
+    transform = Matrix.shearing(0, 0, 0, 0, 0, 1)
+    p = point(2, 3, 4)
+    assert transform * p == point(2, 3, 7)
