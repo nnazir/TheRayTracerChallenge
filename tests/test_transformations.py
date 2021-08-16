@@ -163,3 +163,34 @@ def test_shearing_z_to_y():
     transform = Matrix.shearing(0, 0, 0, 0, 0, 1)
     p = point(2, 3, 4)
     assert transform * p == point(2, 3, 7)
+
+
+def test_individual_transformations():
+    """
+    Scenario: Individual transformations are applied in sequence
+    """
+    p = point(1, 0, 1)
+    A = Matrix.rotation_x(math.pi / 2)
+    B = Matrix.scaling(5, 5, 5)
+    C = Matrix.translation(10, 5, 7)
+    # apply rotation first
+    p2 = A * p
+    assert p2 == point(1, -1, 0)
+    # then apply scaling
+    p3 = B * p2
+    assert p3 == point(5, -5, 0)
+    # then apply translation
+    p4 = C * p3
+    assert p4 == point(15, 0, 7)
+
+
+def test_chained_transformations():
+    """
+    Scenario: Chained transformations must be applied in reverse order
+    """
+    p = point(1, 0, 1)
+    A = Matrix.rotation_x(math.pi / 2)
+    B = Matrix.scaling(5, 5, 5)
+    C = Matrix.translation(10, 5, 7)
+    T = C * B * A
+    assert T * p == point(15, 0, 7)
