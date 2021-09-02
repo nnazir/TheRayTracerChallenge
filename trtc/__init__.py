@@ -6,3 +6,4 @@ from .tuple import Color
 from .canvas import Canvas
 from .matrix import Matrix
 from .ray import Ray
+from .sphere import Sphere
