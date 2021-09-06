@@ -1,4 +1,5 @@
 from trtc import point
+import trtc.intersection
 import uuid
 import math
 
@@ -22,6 +23,8 @@ class Sphere():
         t1 = (-b - math.sqrt(discriminant)) / (2 * a)
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
         if t1 < t2:
-            return (t1, t2)
+            # return (t1, t2)
+            return trtc.intersection.IntersectionList(trtc.intersection.Intersection(t1, self), trtc.intersection.Intersection(t2, self))
         else:
-            return (t2, t1)
+            # return (t2, t1)
+            return trtc.intersection.IntersectionList(trtc.intersection.Intersection(t2, self), trtc.intersection.Intersection(t1, self))

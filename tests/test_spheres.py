@@ -57,3 +57,15 @@ def test_sphere_behind_ray():
     assert len(xs) == 2
     assert xs[0] == -6.0
     assert xs[1] == -4.0
+
+
+def test_intersect_sets_object_on_intersection():
+    '''
+    Scenario: Intersect sets the object on the intersection
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    s = Sphere()
+    xs = s.intersect(r)
+    assert xs.count == 2
+    assert xs.intersections[0].object == s
+    assert xs.intersections[1].object == s
