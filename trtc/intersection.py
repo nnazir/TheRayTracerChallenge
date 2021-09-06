@@ -5,6 +5,7 @@ class Intersection():
         self.t = t
         self.object = object
 
+
 class IntersectionList():
     def __init__(self, *argv) -> None:
         self.count = len(argv)

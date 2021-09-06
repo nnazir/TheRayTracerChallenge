@@ -7,5 +7,5 @@ from .canvas import Canvas
 from .matrix import Matrix
 from .ray import Ray
 from .sphere import Sphere
-from .intersection import Intersection
-from .intersection import IntersectionList
+# from .intersection import Intersection
+# from .intersection import IntersectionList

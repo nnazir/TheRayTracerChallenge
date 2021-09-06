@@ -1,5 +1,5 @@
-from trtc import Sphere
-from trtc import Intersection, IntersectionList
+from trtc.sphere import Sphere
+from trtc.intersection import Intersection, IntersectionList
 
 
 def test_intersection_encapsulate_t_and_object():
