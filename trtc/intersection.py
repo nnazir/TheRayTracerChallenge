@@ -16,6 +16,9 @@ class IntersectionList():
         self.intersections.sort()
 
     def hit(self):
+        '''
+        Assumes the list of intersections are sorted. Returns the lowest positive intersection.
+        '''
         for i in self.intersections:
             if i.t > 0:
                 return i
