@@ -1,4 +1,4 @@
-from trtc import point
+from trtc import point, Matrix
 import trtc.intersection
 import uuid
 import math
@@ -7,6 +7,7 @@ import math
 class Sphere():
     def __init__(self) -> None:
         self.id = uuid.uuid4()
+        self.transform = Matrix.identity_matrix()
 
     def intersect(self, ray):
         # the vector from the sphere's center, to the ray origin

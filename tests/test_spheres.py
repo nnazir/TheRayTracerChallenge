@@ -1,3 +1,4 @@
+from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
 
 
@@ -69,3 +70,21 @@ def test_intersect_sets_object_on_intersection():
     assert xs.count == 2
     assert xs.intersections[0].object == s
     assert xs.intersections[1].object == s
+
+
+def test_sphere_default_transformation():
+    '''
+    Scenario: A sphere's default transformation
+    '''
+    s = Sphere()
+    assert s.transform == Matrix.identity_matrix()
+
+
+def test_changing_sphere_transformation():
+    '''
+    Scenario: Changing a sphere's transformation
+    '''
+    s = Sphere()
+    t = Matrix.translation(2, 3, 4)
+    s.transform = t
+    assert s.transform == t
