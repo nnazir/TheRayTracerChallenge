@@ -1,5 +1,5 @@
 from trtc import point, Matrix
-import trtc.intersection
+from trtc.intersection import Intersection, IntersectionList
 import uuid
 import math
 
@@ -10,22 +10,24 @@ class Sphere():
         self.transform = Matrix.identity_matrix()
 
     def intersect(self, ray):
+        ray2 = ray.transform(self.transform.inverse())
+
         # the vector from the sphere's center, to the ray origin
         # remember: the sphere is center at the world origin
-        sphere_to_ray = ray.origin - point(0, 0, 0)
-        a = ray.direction.dot(ray.direction)
-        b = 2 * ray.direction.dot(sphere_to_ray)
+        sphere_to_ray = ray2.origin - point(0, 0, 0)
+        a = ray2.direction.dot(ray2.direction)
+        b = 2 * ray2.direction.dot(sphere_to_ray)
         c = sphere_to_ray.dot(sphere_to_ray) - 1
         discriminant = b*b - 4 * a * c
 
         if discriminant < 0:
-            return
+            return IntersectionList()
 
         t1 = (-b - math.sqrt(discriminant)) / (2 * a)
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
         if t1 < t2:
-            # return (t1, t2)
-            return trtc.intersection.IntersectionList(trtc.intersection.Intersection(t1, self), trtc.intersection.Intersection(t2, self))
+            return IntersectionList(Intersection(t1, self),
+                                    Intersection(t2, self))
         else:
-            # return (t2, t1)
-            return trtc.intersection.IntersectionList(trtc.intersection.Intersection(t2, self), trtc.intersection.Intersection(t1, self))
+            return IntersectionList(Intersection(t2, self),
+                                    Intersection(t1, self))

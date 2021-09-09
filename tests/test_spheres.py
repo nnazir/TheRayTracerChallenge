@@ -33,7 +33,7 @@ def test_ray_misses_shpere():
     r = Ray(point(0, 2, -5), vector(0, 0, 1))
     s = Sphere()
     xs = s.intersect(r)
-    assert xs == None
+    assert xs.count == 0
 
 
 def test_ray_originates_in_sphere():
@@ -88,3 +88,27 @@ def test_changing_sphere_transformation():
     t = Matrix.translation(2, 3, 4)
     s.transform = t
     assert s.transform == t
+
+
+def test_intersect_scaled_sphere_with_ray():
+    '''
+    Scenario: Intersecting a scaled sphere with a ray
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    s = Sphere()
+    s.transform = Matrix.scaling(2, 2, 2)
+    xs = s.intersect(r)
+    assert xs.count == 2
+    assert xs.intersections[0].t == 3
+    assert xs.intersections[1].t == 7
+
+
+def test_intersect_translated_sphere_with_ray():
+    '''
+    Scenario: Intersecting a translated sphere with a ray
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    s = Sphere()
+    s.transform = Matrix.translation(5, 0, 0)
+    xs = s.intersect(r)
+    assert xs.count == 0
