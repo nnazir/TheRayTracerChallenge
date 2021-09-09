@@ -56,7 +56,6 @@ class Matrix():
             return self.matrix[0][0] * self.matrix[1][1] - \
                 self.matrix[0][1] * self.matrix[1][0]
         else:
-            print(self.matrix)
             det = 0
             for column in range(self.size()):
                 det = det + self.matrix[0][column] * self.cofactor(0, column)
