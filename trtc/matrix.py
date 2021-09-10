@@ -18,7 +18,7 @@ class Matrix():
 
     def __mul__(self, o):
         if type(o) is Matrix:
-            return Matrix(np.matmul(self.list(), o.list()))
+            return Matrix(np.matmul(self.list(), o.list()).tolist())
         else:
             return Tuple(np.dot(self.list()[0], o.list()),
                          np.dot(self.list()[1], o.list()),
