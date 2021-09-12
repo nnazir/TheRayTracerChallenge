@@ -1,5 +1,6 @@
 from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
+from math import sqrt
 
 
 def test_ray_intersect_sphere_at_two_points():
@@ -112,3 +113,48 @@ def test_intersect_translated_sphere_with_ray():
     s.transform = Matrix.translation(5, 0, 0)
     xs = s.intersect(r)
     assert xs.count == 0
+
+
+def test_normal_on_sphere_x_axis():
+    '''
+    Scenario: The normal on a sphere at a point on the x axis
+    '''
+    s = Sphere()
+    n = s.normal_at(point(1, 0, 0))
+    assert n == vector(1, 0, 0)
+
+
+def test_normal_on_sphere_y_axis():
+    '''
+    Scenario: The normal on a sphere at a point on the y axis
+    '''
+    s = Sphere()
+    n = s.normal_at(point(0, 1, 0))
+    assert n == vector(0, 1, 0)
+
+
+def test_normal_on_sphere_z_axis():
+    '''
+    Scenario: The normal on a sphere at a point on the z axis
+    '''
+    s = Sphere()
+    n = s.normal_at(point(0, 0, 1))
+    assert n == vector(0, 0, 1)
+
+
+def test_normal_on_sphere_nonaxial():
+    '''
+    Scenario: The normal on a sphere at a nonaxial point
+    '''
+    s = Sphere()
+    n = s.normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    assert n == vector(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3)
+
+
+def test_normal_is_normalized_vector():
+    '''
+    Scenario: The normal is a normalized vector
+    '''
+    s = Sphere()
+    n = s.normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    assert n == n.normalize()

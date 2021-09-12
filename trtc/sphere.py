@@ -1,4 +1,5 @@
-from trtc import point, Matrix
+from trtc import point, Matrix, Tuple
+import trtc
 from trtc.intersection import Intersection, IntersectionList
 import uuid
 import math
@@ -31,3 +32,6 @@ class Sphere():
         else:
             return IntersectionList(Intersection(t2, self),
                                     Intersection(t1, self))
+
+    def normal_at(self, p):
+        return Tuple.normalize(p - point(0, 0, 0,))
