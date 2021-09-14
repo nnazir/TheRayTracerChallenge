@@ -223,3 +223,13 @@ def test_multiplying_colors():
     c1 = color(1, 0.2, 0.4)
     c2 = color(0.9, 1, 0.1)
     assert c1 * c2 == color(0.9, 0.2, 0.04)
+
+
+def test_reflect_vector_at_45_deg():
+    '''
+    Scenario: Reflecting a vector approaching at 45 degrees
+    '''
+    v = vector(1, -1, 0)
+    n = vector(0, 1, 0)
+    r = v.reflect(n)
+    assert r == vector(1, 1, 0)

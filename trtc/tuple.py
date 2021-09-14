@@ -71,6 +71,9 @@ class Tuple():
     def list(self):
         return [self.x, self.y, self.z, self.w]
 
+    def reflect(self, normal):
+        return self - normal * 2 * self.dot(normal)
+
 
 class Color(Tuple):
     def __init__(self, r, g, b, w):
