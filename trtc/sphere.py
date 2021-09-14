@@ -1,6 +1,7 @@
 from trtc import point, Matrix, Tuple
 import trtc
 from trtc.intersection import Intersection, IntersectionList
+from trtc.material import Material
 import uuid
 import math
 
@@ -9,6 +10,7 @@ class Sphere():
     def __init__(self) -> None:
         self.id = uuid.uuid4()
         self.transform = Matrix.identity_matrix()
+        self.material = Material()
 
     def intersect(self, ray):
         ray2 = ray.transform(self.transform.inverse())

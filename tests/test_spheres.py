@@ -1,5 +1,6 @@
 from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
+from trtc.material import Material
 from math import pi, sqrt
 
 
@@ -179,3 +180,23 @@ def test_compute_normal_of_transformed_sphere():
     s.transform = m
     n = s.normal_at(point(0, sqrt(2)/2, -sqrt(2)/2))
     assert n == vector(0, 0.97014, -0.24254)
+
+
+def test_sphere_has_default_material():
+    '''
+    Scenario: A sphere has a default material
+    '''
+    s = Sphere()
+    m = s.material
+    assert m == Material()
+
+
+def test_sphere_assigned_material():
+    '''
+    Scenario: A sphere may be assigned a material
+    '''
+    s = Sphere()
+    m = Material()
+    m.ambient = 1
+    s.material = m
+    assert s.material == m
