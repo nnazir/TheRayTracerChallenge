@@ -1,6 +1,6 @@
 from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
-from math import sqrt
+from math import pi, sqrt
 
 
 def test_ray_intersect_sphere_at_two_points():
@@ -158,3 +158,24 @@ def test_normal_is_normalized_vector():
     s = Sphere()
     n = s.normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
     assert n == n.normalize()
+
+
+def test_compute_normal_of_translated_sphere():
+    '''
+    Scenario: Computing the normal on a translated sphere
+    '''
+    s = Sphere()
+    s.transform = Matrix.translation(0, 1, 0)
+    n = s.normal_at(point(0, 1.70711, -0.70711))
+    assert n == vector(0, 0.70711, -0.70711)
+
+
+def test_compute_normal_of_transformed_sphere():
+    '''
+    Scenario: Computing the normal on a transformed sphere
+    '''
+    s = Sphere()
+    m = Matrix.scaling(1, 0.5, 1) * Matrix.rotation_z(pi/5)
+    s.transform = m
+    n = s.normal_at(point(0, sqrt(2)/2, -sqrt(2)/2))
+    assert n == vector(0, 0.97014, -0.24254)

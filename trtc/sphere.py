@@ -33,5 +33,9 @@ class Sphere():
             return IntersectionList(Intersection(t2, self),
                                     Intersection(t1, self))
 
-    def normal_at(self, p):
-        return Tuple.normalize(p - point(0, 0, 0,))
+    def normal_at(self, world_point):
+        object_point = self.transform.inverse() * world_point
+        object_normal = object_point - point(0, 0, 0)
+        world_normal = self.transform.inverse().transpose() * object_normal
+        world_normal.w = 0
+        return Tuple.normalize(world_normal)
