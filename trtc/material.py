@@ -1,4 +1,5 @@
 from trtc import color
+from math import pow
 
 
 class Material():
@@ -15,3 +16,38 @@ class Material():
             self.diffuse == o.diffuse and \
             self.specular == o.specular and \
             self.shininess == o.shininess
+
+    def lighting(self, light, position, eyev, normalv):
+        # combine the surface color with the light's color/intensity
+        effective_color = self.color * light.intensity
+
+        # find the direction to the light source
+        lightv = (light.position - position).normalize()
+
+        # compute the ambient contribution
+        ambient = effective_color * self.ambient
+
+        # light_dot_normal represents the cosine of the angle between the
+        # light vector and the normal vector. A negative number means the
+        # light is on the other side of the surface.
+        light_dot_normal = lightv.dot(normalv)
+        if light_dot_normal < 0:
+            diffuse = color(0, 0, 0)
+            specular = color(0, 0, 0)
+        else:
+            # compute the diffuse contribution
+            diffuse = effective_color * self.diffuse * light_dot_normal
+            # reflect_dot_eye represents the cosine of the angle between the
+            # reflection vector and the eye vector. A negative number means the
+            # light reflects away from the eye.
+            reflectv = -lightv.reflect(normalv)
+            reflect_dot_eye = reflectv.dot(eyev)
+            if reflect_dot_eye <= 0:
+                specular = color(0, 0, 0)
+            else:
+                # compute the specular contribution
+                factor = pow(reflect_dot_eye, self.shininess)
+                specular = light.intensity * self.specular * factor
+
+        # Add the three contributions together to get the final shading
+        return ambient + diffuse + specular
