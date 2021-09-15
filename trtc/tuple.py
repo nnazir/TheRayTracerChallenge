@@ -107,16 +107,16 @@ class Color(Tuple):
         self.z = value
 
     def __mul__(self, other):
-        if type(other) == int:
-            return Color(self.x * other,
-                         self.y * other,
-                         self.z * other,
-                         self.w * other)
-        else:
+        if type(other) == Color:
             return Color(self.x * other.x,
                          self.y * other.y,
                          self.z * other.z,
                          self.w * other.w)
+        else:
+            return Color(self.x * other,
+                         self.y * other,
+                         self.z * other,
+                         self.w * other)
 
 
 def point(x, y, z):
