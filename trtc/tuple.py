@@ -19,7 +19,7 @@ class Tuple():
             utils.float_equal(self.w, o.w)
 
     def __add__(self, other):
-        return Tuple(self.x + other.x,
+        return type(self)(self.x + other.x,
                      self.y + other.y,
                      self.z + other.z,
                      self.w + other.w)
