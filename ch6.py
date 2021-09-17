@@ -64,8 +64,6 @@ if __name__ == "__main__":
                 normal = hit.object.normal_at(p)
                 eye = -r.direction
                 c = hit.object.material.lighting(light, p, eye, normal)
-                print(f'c is a {type(c)}')
-                print(x, y, c)
                 canvas.write_pixel(x, y, c)
 
     utils.save_canvas("output/ch6-1.ppm", canvas)
