@@ -15,6 +15,13 @@ class IntersectionList():
         self.intersections = [a for a in argv]
         self.intersections.sort()
 
+    def add(self, item):
+        self.intersections.append(item)
+        self.count = len(self.intersections)
+
+    def sort_intersections(self):
+        list.sort(self.intersections, key=lambda i: i.t)
+
     def hit(self):
         '''
         Assumes the list of intersections are sorted. Returns the lowest positive intersection.
