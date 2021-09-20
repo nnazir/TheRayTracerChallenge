@@ -45,3 +45,9 @@ class World():
 
         xs.sort_intersections()
         return xs
+
+    def shade_hit(self, comps):
+        '''
+        Return the color at the intersection encapsulated by pomps in the given world
+        '''
+        return comps.object.material.lighting(self.light, comps.point, comps.eyev, comps.normalv)

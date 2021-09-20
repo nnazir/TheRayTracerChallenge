@@ -5,6 +5,7 @@ from trtc.material import Material
 from trtc.sphere import Sphere
 from trtc.world import World
 from trtc.ray import Ray
+from trtc.intersection import Intersection
 
 
 def test_creating_world():
@@ -47,3 +48,32 @@ def test_intersect_world_ray():
     assert xs.intersections[1].t == 4.5
     assert xs.intersections[2].t == 5.5
     assert xs.intersections[3].t == 6
+
+
+def test_shade_intersection():
+    '''
+    Scenario: Shading an intersection
+    '''
+    w = World()
+    w.default_world()
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = w.objects[0]
+    i = Intersection(4, shape)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+    assert c == color(0.38066, 0.47583, 0.2855)
+
+
+def test_shade_intersection_inside():
+    '''
+    Scenario: Shading an intersection from the inside
+    '''
+    w = World()
+    w.default_world()
+    w.light = PointLight(point(0, 0.25, 0), color(1, 1, 1))
+    r = Ray(point(0, 0, 0), vector(0, 0, 1))
+    shape = w.objects[1]
+    i = Intersection(0.5, shape)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+    assert c == color(0.90498, 0.90498, 0.90498)
