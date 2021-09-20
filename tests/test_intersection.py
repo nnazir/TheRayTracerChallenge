@@ -1,5 +1,7 @@
 from trtc.sphere import Sphere
+from trtc.ray import Ray
 from trtc.intersection import Intersection, IntersectionList
+from trtc.tuple import point, vector
 
 
 def test_intersection_encapsulate_t_and_object():
@@ -73,3 +75,44 @@ def test_hit_always_lowest_nonnegative():
     xs = IntersectionList(i1, i2, i3, i4)
     i = xs.hit()
     assert i == i4
+
+
+def test_precompute_intersection_state():
+    '''
+    Precomputing the state of an intersection
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+    comps = i.prepare_computations(r)
+    assert comps.t == i.t
+    assert comps.object == i.object
+    assert comps.point == point(0, 0, -1)
+    assert comps.eyev == vector(0, 0, -1)
+    assert comps.normalv == vector(0, 0, -1)
+
+
+def test_hit_intersection_outside():
+    '''
+    Scenario: The hit, when an intersection occurs on the outside
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+    comps = i.prepare_computations(r)
+    assert comps.inside == False
+
+
+def test_hit_intersection_inside():
+    '''
+    Scenario: The hit, when an intersection occurs on the inside
+    '''
+    r = Ray(point(0, 0, 0), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(1, shape)
+    comps = i.prepare_computations(r)
+    assert comps.point == point(0, 0, 1)
+    assert comps.eyev == vector(0, 0, -1)
+    assert comps.inside == True
+    # normal would have been (0, 0, 1), but is inverted
+    comps.normalv == vector(0, 0, -1)
