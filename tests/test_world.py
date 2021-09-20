@@ -77,3 +77,40 @@ def test_shade_intersection_inside():
     comps = i.prepare_computations(r)
     c = w.shade_hit(comps)
     assert c == color(0.90498, 0.90498, 0.90498)
+
+
+def test_color_ray_misses():
+    '''
+    Scenario: The color when a ray misses
+    '''
+    w = World()
+    w.default_world()
+    r = Ray(point(0, 0, -5), vector(0, 1, 0))
+    c = w.color_at(r)
+    assert c == color(0, 0, 0)
+
+
+def test_color_ray_hits():
+    '''
+    Scenario: The color when a ray hits
+    '''
+    w = World()
+    w.default_world()
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    c = w.color_at(r)
+    assert c == color(0.38066, 0.47583, 0.2855)
+
+
+def test_color_intersection_behind_ray():
+    '''
+    Scenario: The color with an intersection behind the ray
+    '''
+    w = World()
+    w.default_world()
+    outer = w.objects[0]
+    outer.material.ambient = 1
+    inner = w.objects[1]
+    inner.material.ambient = 1
+    r = Ray(point(0, 0, 0.75), vector(0, 0, -1))
+    c = w.color_at(r)
+    assert c == inner.material.color

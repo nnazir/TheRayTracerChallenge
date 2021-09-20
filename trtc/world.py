@@ -51,3 +51,15 @@ class World():
         Return the color at the intersection encapsulated by pomps in the given world
         '''
         return comps.object.material.lighting(self.light, comps.point, comps.eyev, comps.normalv)
+
+    def color_at(self, ray):
+        '''
+        Intersect the world with the given ray and then return the color at the 
+        resulting intersection.
+        '''
+        xs = self.intersect_world(ray)
+        hit = xs.hit()
+        if hit is None:
+            return color(0, 0, 0)
+        comps = hit.prepare_computations(ray)
+        return self.shade_hit(comps)
