@@ -139,3 +139,15 @@ class Matrix():
              [zx, zy, 1, 0],
              [0, 0, 0, 1]]
         )
+
+    @classmethod
+    def view_transform(cls, scene_from, scene_to, up):
+        forward = (scene_to - scene_from).normalize()
+        upn = up.normalize()
+        left = forward.cross(upn)
+        true_up = left.cross(forward)
+        orientation = Matrix([[left.x, left.y, left.z, 0],
+                              [true_up.x, true_up.y, true_up.z, 0],
+                              [-forward.x, -forward.y, -forward.z, 0],
+                              [0, 0, 0, 1]])
+        return orientation * Matrix.translation(-scene_from.x, -scene_from.y, -scene_from.z)

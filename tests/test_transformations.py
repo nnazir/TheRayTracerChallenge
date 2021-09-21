@@ -194,3 +194,51 @@ def test_chained_transformations():
     C = Matrix.translation(10, 5, 7)
     T = C * B * A
     assert T * p == point(15, 0, 7)
+
+
+def test_matrix_default_orientation():
+    '''
+    Scenario: The transformation matrix for the default orientation
+    '''
+    scene_from = point(0, 0, 0)
+    scene_to = point(0, 0, -1)
+    up = vector(0, 1, 0)
+    t = Matrix.view_transform(scene_from, scene_to, up)
+    assert t == Matrix.identity_matrix()
+
+
+def test_view_transform_positive_z():
+    '''
+    Scenario: A view transformation matrix looking in positive z direction
+    '''
+    scene_from = point(0, 0, 0)
+    scene_to = point(0, 0, 1)
+    up = vector(0, 1, 0)
+    t = Matrix.view_transform(scene_from, scene_to, up)
+    assert t == Matrix.scaling(-1, 1, -1)
+
+
+def test_view_transform_moves_world():
+    '''
+    Scenario: The view transformation moves the world
+    '''
+    scene_from = point(0, 0, 8)
+    scene_to = point(0, 0, 0)
+    up = vector(0, 1, 0)
+    t = Matrix.view_transform(scene_from, scene_to, up)
+    assert t == Matrix.translation(0, 0, -8)
+
+
+def test_arbitrary_view_transform():
+    '''
+    Scenario: An arbitrary view transformation
+    '''
+    scene_from = point(1, 3, 2)
+    scene_to = point(4, -2, 8)
+    up = vector(1, 1, 0)
+    t = Matrix.view_transform(scene_from, scene_to, up)
+    assert t == Matrix([[-0.50709, 0.50709,  0.67612, -2.36643],
+                        [0.76772, 0.60609,  0.12122, -2.82843],
+                        [-0.35857, 0.59761, -0.71714,  0.00000],
+                        [0.00000, 0.00000,  0.00000,  1.00000]]
+                       )
