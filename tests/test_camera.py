@@ -1,4 +1,5 @@
-from math import pi
+from math import pi, sqrt
+from trtc.tuple import point, vector
 from trtc.matrix import Matrix
 from trtc.camera import Camera
 from trtc.utils import float_equal
@@ -32,3 +33,34 @@ def test_pixel_size_vertical_canvas():
     '''
     c = Camera(125, 200, pi/2)
     assert float_equal(c.pixel_size, 0.01)
+
+
+def test_ray_through_canvas_center():
+    '''
+    Scenario: Constructing a ray through the center of the canvas
+    '''
+    c = Camera(201, 101, pi/2)
+    r = c.ray_for_pixel(100, 50)
+    assert r.origin == point(0, 0, 0)
+    assert r.direction == vector(0, 0, -1)
+
+
+def test_ray_through_canvas_corner():
+    '''
+    Scenario: Constructing a ray through a corner of the canvas
+    '''
+    c = Camera(201, 101, pi/2)
+    r = c.ray_for_pixel(0, 0)
+    assert r.origin == point(0, 0, 0)
+    assert r.direction == vector(0.66519, 0.33259, -0.66851)
+
+
+def test_ray_transformed_camera():
+    '''
+    Scenario: Constructing a ray when the camera is transformed
+    '''
+    c = Camera(201, 101, pi/2)
+    c.transform = Matrix.rotation_y(pi/4) * Matrix.translation(0, -2, 5)
+    r = c.ray_for_pixel(100, 50)
+    assert r.origin == point(0, 2, -5)
+    assert r.direction == vector(sqrt(2)/2, 0, -sqrt(2)/2)
