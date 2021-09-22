@@ -1,6 +1,7 @@
 from .tuple import point
 from .matrix import Matrix
 from .ray import Ray
+from .canvas import Canvas
 from math import tan
 
 
@@ -50,3 +51,13 @@ class Camera():
         direction = (pixel - origin).normalize()
 
         return Ray(origin, direction)
+
+
+    def render(self, world):
+        image = Canvas(self.hsize, self.vsize)
+        for y in range(0, self.vsize - 1):
+            for x in range(0, self.hsize - 1):
+                ray = self.ray_for_pixel(x, y)
+                color = world.color_at(ray)
+                image.write_pixel(x, y, color)
+        return image

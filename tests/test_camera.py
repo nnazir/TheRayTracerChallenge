@@ -1,8 +1,9 @@
 from math import pi, sqrt
-from trtc.tuple import point, vector
+from trtc.utils import float_equal
+from trtc.tuple import point, vector, color
 from trtc.matrix import Matrix
 from trtc.camera import Camera
-from trtc.utils import float_equal
+from trtc.world import World
 
 
 def test_construct_camera():
@@ -64,3 +65,18 @@ def test_ray_transformed_camera():
     r = c.ray_for_pixel(100, 50)
     assert r.origin == point(0, 2, -5)
     assert r.direction == vector(sqrt(2)/2, 0, -sqrt(2)/2)
+
+
+def test_render_world_with_camera():
+    '''
+    Scenario: Rendering a world with a camera
+    '''
+    w = World()
+    w.default_world()
+    c = Camera(11, 11, pi/2)
+    scene_from = point(0, 0, -5)
+    scene_to = point(0, 0, 0)
+    up = vector(0, 1, 0)
+    c.transform = Matrix.view_transform(scene_from, scene_to, up)
+    image = c.render(w)
+    assert image.pixel_at(5, 5) == color(0.38066, 0.47583, 0.2855)
