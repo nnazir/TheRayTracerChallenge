@@ -81,3 +81,17 @@ def test_lighting_with_light_behind_surface():
     light = PointLight(point(0, 0, 10), color(1, 1, 1))
     result = m.lighting(light, position, eyev, normalv)
     assert result == color(0.1, 0.1, 0.1)
+
+
+def test_lighting_surface_shadow():
+    '''
+    Scenario: Lighting with the surface in shadow
+    '''
+    m = Material()
+    position = point(0, 0, 0)
+    eyev = vector(0, 0, -1)
+    normalv = vector(0, 0, -1)
+    light = PointLight(point(0, 0, -10), color(1, 1, 1))
+    in_shadow = True
+    result = m.lighting(light, position, eyev, normalv, in_shadow)
+    assert result == color(0.1, 0.1, 0.1)
