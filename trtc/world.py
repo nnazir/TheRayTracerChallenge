@@ -63,3 +63,16 @@ class World():
             return color(0, 0, 0)
         comps = hit.prepare_computations(ray)
         return self.shade_hit(comps)
+
+    def is_shadowed(self, p):
+        v = self.light.position - p
+        distance = v.magnitude()
+        direction = v.normalize()
+
+        r = Ray(p, direction)
+        intersections = self.intersect_world(r)
+
+        h = intersections.hit()
+        if h and h.t < distance:
+            return True
+        return False

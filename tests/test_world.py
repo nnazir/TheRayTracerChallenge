@@ -114,3 +114,45 @@ def test_color_intersection_behind_ray():
     r = Ray(point(0, 0, 0.75), vector(0, 0, -1))
     c = w.color_at(r)
     assert c == inner.material.color
+
+
+def test_no_shadow_no_collinear_point_light():
+    '''
+    Scenario: There is no shadow when nothing is collinear with
+    point and light
+    '''
+    w = World()
+    w.default_world()
+    p = point(0, 10, 0)
+    assert w.is_shadowed(p) == False
+
+
+def test_shadow_object_between_point_light():
+    '''
+    Scenario: The shadow when an object is between the point and
+    the light
+    '''
+    w = World()
+    w.default_world()
+    p = point(10, -10, 10)
+    assert w.is_shadowed(p) == True
+
+
+def test_no_shadow_object_behind_light():
+    '''
+    Scenario: There is no shadow when an object is behind the light
+    '''
+    w = World()
+    w.default_world()
+    p = point(-20, 20, -20)
+    assert w.is_shadowed(p) == False
+
+
+def test_no_shadow_object_behind_point():
+    '''
+    Scenario: There is no shadow when an object is behind the point
+    '''
+    w = World()
+    w.default_world()
+    p = point(-2, 2, -2)
+    w.is_shadowed(p) == False
