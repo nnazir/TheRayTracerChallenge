@@ -1,4 +1,5 @@
 from .tuple import point, vector
+from .utils import EPSILON
 
 
 class Intersection():
@@ -19,11 +20,13 @@ class Intersection():
         comps.point = ray.position(comps.t)
         comps.eyev = -ray.direction
         comps.normalv = comps.object.normal_at(comps.point)
+        
         if comps.normalv.dot(comps.eyev) < 0:
             comps.inside = True
             comps.normalv = -comps.normalv
         else:
-            comps.inside = False
+            comps.inside = False        
+        comps.over_point = comps.point + comps.normalv * EPSILON
 
         return comps
 

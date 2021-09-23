@@ -1,3 +1,5 @@
+from trtc.utils import EPSILON
+from trtc.matrix import Matrix
 from trtc.sphere import Sphere
 from trtc.ray import Ray
 from trtc.intersection import Intersection, IntersectionList
@@ -116,3 +118,16 @@ def test_hit_intersection_inside():
     assert comps.inside == True
     # normal would have been (0, 0, 1), but is inverted
     comps.normalv == vector(0, 0, -1)
+
+
+def test_hit_offsets_point():
+    '''
+    Scenario: The hit should offset the point
+    '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere()
+    shape.transform = Matrix.translation(0, 0, 1)
+    i = Intersection(5, shape)
+    comps = i.prepare_computations(r)
+    assert comps.over_point.z < -EPSILON/2
+    assert comps.point.z > comps.over_point.z

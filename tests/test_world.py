@@ -5,7 +5,7 @@ from trtc.material import Material
 from trtc.sphere import Sphere
 from trtc.world import World
 from trtc.ray import Ray
-from trtc.intersection import Intersection
+from trtc.intersection import Computations, Intersection
 
 
 def test_creating_world():
@@ -156,3 +156,22 @@ def test_no_shadow_object_behind_point():
     w.default_world()
     p = point(-2, 2, -2)
     w.is_shadowed(p) == False
+
+
+def test_shade_hit_intersection_in_shadow():
+    '''
+    Scenario: shade_hit() is given an intersection in shadow
+    '''
+    w = World()
+    w.default_world()
+    w.light = PointLight(point(0, 0, -10), color(1, 1, 1))
+    s1 = Sphere()
+    w.objects.append(s1)
+    s2 = Sphere()
+    s2.transform = Matrix.translation(0, 0, 10)
+    w.objects.append(s2)
+    r = Ray(point(0, 0, 5), vector(0, 0, 1))
+    i = Intersection(4, s2)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+    assert c == color(0.1, 0.1, 0.1)
