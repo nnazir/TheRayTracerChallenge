@@ -65,6 +65,9 @@ class World():
         return self.shade_hit(comps)
 
     def is_shadowed(self, p):
+        '''
+        Check to see if point p is in a shadow
+        '''
         v = self.light.position - p
         distance = v.magnitude()
         direction = v.normalize()
