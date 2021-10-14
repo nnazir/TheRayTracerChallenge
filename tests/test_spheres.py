@@ -1,7 +1,16 @@
+import pytest
 from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
 from trtc.material import Material
 from math import pi, sqrt
+
+
+def test_sphere_is_shape():
+    '''
+    A Sphere should now be a Shape
+    '''
+    s = Sphere()
+    assert isinstance(s, Sphere)
 
 
 def test_ray_intersect_sphere_at_two_points():
@@ -10,7 +19,7 @@ def test_ray_intersect_sphere_at_two_points():
     '''
     r = Ray(point(0, 0, -5), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 2
     assert xs.intersections[0].t == 4.0
     assert xs.intersections[1].t == 6.0
@@ -22,7 +31,7 @@ def test_ray_intersect_sphere_at_tangent():
     '''
     r = Ray(point(0, 1, -5), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 2
     assert xs.intersections[0].t == 5.0
     assert xs.intersections[1].t == 5.0
@@ -34,7 +43,7 @@ def test_ray_misses_shpere():
     '''
     r = Ray(point(0, 2, -5), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 0
 
 
@@ -44,7 +53,7 @@ def test_ray_originates_in_sphere():
     '''
     r = Ray(point(0, 0, 0), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 2
     assert xs.intersections[0].t == -1.0
     assert xs.intersections[1].t == 1.0
@@ -56,7 +65,7 @@ def test_sphere_behind_ray():
     '''
     r = Ray(point(0, 0, 5), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 2
     assert xs.intersections[0].t == -6.0
     assert xs.intersections[1].t == -4.0
@@ -68,12 +77,13 @@ def test_intersect_sets_object_on_intersection():
     '''
     r = Ray(point(0, 0, -5), vector(0, 0, 1))
     s = Sphere()
-    xs = s.intersect(r)
+    xs = s.local_intersect(r)
     assert xs.count == 2
     assert xs.intersections[0].object == s
     assert xs.intersections[1].object == s
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_sphere_default_transformation():
     '''
     Scenario: A sphere's default transformation
@@ -82,6 +92,7 @@ def test_sphere_default_transformation():
     assert s.transform == Matrix.identity_matrix()
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_changing_sphere_transformation():
     '''
     Scenario: Changing a sphere's transformation
@@ -92,6 +103,7 @@ def test_changing_sphere_transformation():
     assert s.transform == t
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_intersect_scaled_sphere_with_ray():
     '''
     Scenario: Intersecting a scaled sphere with a ray
@@ -105,6 +117,7 @@ def test_intersect_scaled_sphere_with_ray():
     assert xs.intersections[1].t == 7
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_intersect_translated_sphere_with_ray():
     '''
     Scenario: Intersecting a translated sphere with a ray
@@ -121,7 +134,7 @@ def test_normal_on_sphere_x_axis():
     Scenario: The normal on a sphere at a point on the x axis
     '''
     s = Sphere()
-    n = s.normal_at(point(1, 0, 0))
+    n = s.local_normal_at(point(1, 0, 0))
     assert n == vector(1, 0, 0)
 
 
@@ -130,7 +143,7 @@ def test_normal_on_sphere_y_axis():
     Scenario: The normal on a sphere at a point on the y axis
     '''
     s = Sphere()
-    n = s.normal_at(point(0, 1, 0))
+    n = s.local_normal_at(point(0, 1, 0))
     assert n == vector(0, 1, 0)
 
 
@@ -139,7 +152,7 @@ def test_normal_on_sphere_z_axis():
     Scenario: The normal on a sphere at a point on the z axis
     '''
     s = Sphere()
-    n = s.normal_at(point(0, 0, 1))
+    n = s.local_normal_at(point(0, 0, 1))
     assert n == vector(0, 0, 1)
 
 
@@ -148,7 +161,7 @@ def test_normal_on_sphere_nonaxial():
     Scenario: The normal on a sphere at a nonaxial point
     '''
     s = Sphere()
-    n = s.normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    n = s.local_normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
     assert n == vector(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3)
 
 
@@ -157,10 +170,11 @@ def test_normal_is_normalized_vector():
     Scenario: The normal is a normalized vector
     '''
     s = Sphere()
-    n = s.normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
+    n = s.local_normal_at(point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))
     assert n == n.normalize()
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_compute_normal_of_translated_sphere():
     '''
     Scenario: Computing the normal on a translated sphere
@@ -171,6 +185,7 @@ def test_compute_normal_of_translated_sphere():
     assert n == vector(0, 0.70711, -0.70711)
 
 
+@pytest.mark.skip(reason="Should be done in Shape parent class now")
 def test_compute_normal_of_transformed_sphere():
     '''
     Scenario: Computing the normal on a transformed sphere
