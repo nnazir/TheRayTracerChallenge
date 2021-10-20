@@ -20,9 +20,9 @@ class Tuple():
 
     def __add__(self, other):
         return type(self)(self.x + other.x,
-                     self.y + other.y,
-                     self.z + other.z,
-                     self.w + other.w)
+                          self.y + other.y,
+                          self.z + other.z,
+                          self.w + other.w)
 
     def __sub__(self, other):
         return Tuple(self.x - other.x,
@@ -131,3 +131,7 @@ def vector(x, y, z):
 
 def color(r, g, b):
     return Color(r, g, b, 0)
+
+
+BLACK = color(0, 0, 0)
+WHITE = color(1, 1, 1)
