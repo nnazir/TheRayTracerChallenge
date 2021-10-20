@@ -9,6 +9,7 @@ class Material():
         self.diffuse = 0.9
         self.specular = 0.9
         self.shininess = 200.0
+        self.pattern = None
 
     def __eq__(self, o: object) -> bool:
         return self.color == o.color and \
@@ -18,8 +19,13 @@ class Material():
             self.shininess == o.shininess
 
     def lighting(self, light, position, eyev, normalv, in_shadow=False):
+        if self.pattern:
+            lighting_color = self.pattern.stripe_at(position)
+        else:
+            lighting_color = self.color
+
         # combine the surface color with the light's color/intensity
-        effective_color = self.color * light.intensity
+        effective_color = lighting_color * light.intensity
 
         # find the direction to the light source
         lightv = (light.position - position).normalize()

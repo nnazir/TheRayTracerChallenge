@@ -3,6 +3,7 @@ from trtc.tuple import point, vector
 from trtc import color
 from trtc.material import Material
 from trtc.light import PointLight
+from trtc.pattern import StripePattern
 from math import sqrt
 
 
@@ -95,3 +96,21 @@ def test_lighting_surface_shadow():
     in_shadow = True
     result = m.lighting(light, position, eyev, normalv, in_shadow)
     assert result == color(0.1, 0.1, 0.1)
+
+
+def test_lighting_with_pattern():
+    '''
+    Scenario: Lighting with a pattern applied
+    '''
+    m = Material()
+    m.pattern = StripePattern(color(1, 1, 1), color(0, 0, 0))
+    m.ambient = 1
+    m.diffuse = 0
+    m.specular = 0
+    eyev = vector(0, 0, -1)
+    normalv = vector(0, 0, -1)
+    light = PointLight(point(0, 0, -10), color(1, 1, 1))
+    c1 = m.lighting(light, point(0.9, 0, 0), eyev, normalv, False)
+    c2 = m.lighting(light, point(1.1, 0, 0), eyev, normalv, False)
+    assert c1 == color(1, 1, 1)
+    assert c2 == color(0, 0, 0)
