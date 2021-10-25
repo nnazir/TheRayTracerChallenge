@@ -51,7 +51,7 @@ class World():
         Return the color at the intersection encapsulated by pomps in the given world
         '''
         shadowed = self.is_shadowed(comps.over_point)
-        return comps.object.material.lighting(self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
+        return comps.object.material.lighting(comps.object, self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
 
     def color_at(self, ray):
         '''

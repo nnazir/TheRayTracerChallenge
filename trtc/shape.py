@@ -7,9 +7,9 @@ import uuid
 from .tuple import vector
 from .matrix import Matrix
 from .material import Material
+from abc import ABC
 
-
-class Shape():
+class Shape(ABC):
     """
     Abstract class for any shape to be derived from
     """

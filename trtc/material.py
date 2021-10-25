@@ -18,9 +18,9 @@ class Material():
             self.specular == o.specular and \
             self.shininess == o.shininess
 
-    def lighting(self, light, position, eyev, normalv, in_shadow=False):
+    def lighting(self, obj, light, position, eyev, normalv, in_shadow=False):
         if self.pattern:
-            lighting_color = self.pattern.stripe_at(position)
+            lighting_color = self.pattern.stripe_at_object(obj, position)
         else:
             lighting_color = self.color
 
