@@ -1,15 +1,15 @@
 from trtc.matrix import Matrix
 import trtc.tuple
 from trtc.tuple import WHITE, BLACK, color, point
-from trtc.pattern import TestPattern, StripePattern, GradientPattern
+from trtc.pattern import TestPattern, StripePattern, GradientPattern  # , RingPattern
 from trtc.sphere import Sphere
 
 
 def test_create_stripe_pattern():
     '''  Scenario: Creating a stripe pattern  '''
-    pattern = StripePattern(trtc.tuple.WHITE, trtc.tuple.BLACK)
-    assert pattern.a == WHITE
-    assert pattern.b == BLACK
+    pattern = StripePattern(WHITE, BLACK)
+    assert pattern.color_a == WHITE
+    assert pattern.color_b == BLACK
 
 
 def test_stripe_pattern_constant_y():
