@@ -23,11 +23,6 @@ class TestPattern(Pattern):
 
 
 class StripePattern(Pattern):
-    # def __init__(self, stripe_a, stripe_b) -> None:
-    #     self.a = stripe_a
-    #     self.b = stripe_b
-    #     self.transform = Matrix.identity_matrix()
-
     def pattern_at(self, p: point) -> color:
         ''' Return the appropriate color for the pattern and point '''
         if math.floor(p.x) % 2 == 0:
@@ -36,7 +31,6 @@ class StripePattern(Pattern):
 
 
 class GradientPattern(Pattern):
-
     def pattern_at(self, p: point):
         distance = self.color_b - self.color_a
         fraction = p.x - math.floor(p.x)
@@ -44,4 +38,8 @@ class GradientPattern(Pattern):
         return self.color_a + distance * fraction
 
 
-
+class RingPattern(Pattern):
+    def pattern_at(self, p: point) -> color:
+        if math.floor(math.sqrt(pow(p.x, 2) + pow(p.x, 2))) // 2 == 0:
+            return self.color_a
+        return self.color_b
