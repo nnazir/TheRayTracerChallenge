@@ -43,3 +43,10 @@ class RingPattern(Pattern):
         if math.floor(math.sqrt(pow(p.x, 2) + pow(p.x, 2))) // 2 == 0:
             return self.color_a
         return self.color_b
+
+
+class CheckersPattern(Pattern):
+    def pattern_at(self, p: point) -> color:
+        if (math.floor(p.x) + math.floor(p.y) + math.floor(p.z)) // 2 == 0:
+            return self.color_a
+        return self.color_b

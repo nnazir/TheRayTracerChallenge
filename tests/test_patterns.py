@@ -1,7 +1,7 @@
 from trtc.matrix import Matrix
 import trtc.tuple
 from trtc.tuple import WHITE, BLACK, color, point
-from trtc.pattern import TestPattern, StripePattern, GradientPattern, RingPattern
+from trtc.pattern import TestPattern, StripePattern, GradientPattern, RingPattern, CheckersPattern
 from trtc.sphere import Sphere
 
 
@@ -126,3 +126,27 @@ def test_ring_extends_in_x_and_z():
     pattern.pattern_at(point(0, 0, 1)) == BLACK
     # 0.708 = just lightly more than sqrt(2)/2
     pattern.pattern_at(point(0.708, 0, 0.708)) == BLACK
+
+
+def test_checkers_repeat_in_x():
+    '''  Scenario: Checkers should repeat in x  '''
+    pattern = CheckersPattern(WHITE, BLACK)
+    pattern.pattern_at(point(0, 0, 0)) == WHITE
+    pattern.pattern_at(point(0.99, 0, 0)) == WHITE
+    pattern.pattern_at(point(1.01, 0, 0)) == BLACK
+
+
+def test_checkers_repeat_in_y():
+    '''  Scenario: Checkers should repeat in y  '''
+    pattern = CheckersPattern(WHITE, BLACK)
+    pattern.pattern_at(point(0, 0, 0)) == WHITE
+    pattern.pattern_at(point(0, 0.99, 0)) == WHITE
+    pattern.pattern_at(point(0, 1.01, 0)) == BLACK
+
+
+def test_checkers_repeat_in_z():
+    '''  Scenario: Checkers should repeat in z  '''
+    pattern = CheckersPattern(WHITE, BLACK)
+    pattern.pattern_at(point(0, 0, 0)) == WHITE
+    pattern.pattern_at(point(0, 0, 0.99)) == WHITE
+    pattern.pattern_at(point(0, 0, 1.01)) == BLACK
