@@ -20,7 +20,7 @@ class Material():
 
     def lighting(self, obj, light, position, eyev, normalv, in_shadow=False):
         if self.pattern:
-            lighting_color = self.pattern.stripe_at_object(obj, position)
+            lighting_color = self.pattern.pattern_at_shape(obj, position)
         else:
             lighting_color = self.color
 
