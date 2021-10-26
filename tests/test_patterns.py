@@ -1,7 +1,7 @@
 from trtc.matrix import Matrix
 import trtc.tuple
 from trtc.tuple import WHITE, BLACK, color, point
-from trtc.pattern import TestPattern, StripePattern
+from trtc.pattern import TestPattern, StripePattern, GradientPattern
 from trtc.sphere import Sphere
 
 
@@ -107,3 +107,12 @@ def test_pattern_with_object_and_pattern_transformation():
     pattern.transform = Matrix.translation(0.5, 1, 1.5)
     c = pattern.pattern_at_shape(shape, point(2.5, 3, 3.5))
     assert c == color(0.75, 0.5, 0.25)
+
+
+def test_gradient_between_colors():
+    '''  Scenario: A gradient linearly interpolates between colors  '''
+    pattern = GradientPattern(WHITE, BLACK)
+    assert pattern.pattern_at(point(0, 0, 0)) == WHITE
+    assert pattern.pattern_at(point(0.25, 0, 0)) == color(0.75, 0.75, 0.75)
+    assert pattern.pattern_at(point(0.5, 0, 0)) == color(0.5, 0.5, 0.5)
+    assert pattern.pattern_at(point(0.75, 0, 0)) == color(0.25, 0.25, 0.25)

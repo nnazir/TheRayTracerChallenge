@@ -31,3 +31,16 @@ class StripePattern(Pattern):
         if math.floor(p.x) % 2 == 0:
             return self.a
         return self.b
+
+
+class GradientPattern(Pattern):
+    def __init__(self, color_a, color_b) -> None:
+        super().__init__()
+        self.color_a = color_a
+        self.color_b = color_b
+
+    def pattern_at(self, p: point):
+        distance = self.color_b - self.color_a
+        fraction = p.x - math.floor(p.x)
+
+        return self.color_a + distance * fraction
