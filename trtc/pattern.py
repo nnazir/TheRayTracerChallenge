@@ -1,7 +1,7 @@
 import math
 from trtc.tuple import color, point
 from trtc.matrix import Matrix
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Pattern(ABC):
@@ -16,6 +16,9 @@ class Pattern(ABC):
         pattern_point = self.transform.inverse() * object_point
         return self.pattern_at(pattern_point)
 
+    @abstractmethod
+    def pattern_at(self, p):
+        pass
 
 class TestPattern(Pattern):
     def pattern_at(self, p: point) -> color:
@@ -40,13 +43,13 @@ class GradientPattern(Pattern):
 
 class RingPattern(Pattern):
     def pattern_at(self, p: point) -> color:
-        if math.floor(math.sqrt(pow(p.x, 2) + pow(p.x, 2))) // 2 == 0:
+        if math.floor(math.sqrt(pow(p.x, 2) + pow(p.x, 2))) % 2 == 0:
             return self.color_a
         return self.color_b
 
 
 class CheckersPattern(Pattern):
     def pattern_at(self, p: point) -> color:
-        if (math.floor(p.x) + math.floor(p.y) + math.floor(p.z)) // 2 == 0:
+        if (math.floor(p.x) + math.floor(p.y) + math.floor(p.z)) % 2 == 0:
             return self.color_a
         return self.color_b
