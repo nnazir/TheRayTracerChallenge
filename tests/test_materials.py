@@ -122,3 +122,9 @@ def test_lighting_with_pattern():
     c2 = m.lighting(s, light, point(1.1, 0, 0), eyev, normalv, False)
     assert c1 == color(1, 1, 1)
     assert c2 == color(0, 0, 0)
+
+
+def test_default_material_reflectivity():
+    '''  Scenario: Reflectivity for the default material  '''
+    m = Material()
+    assert m.reflective == 0.0
