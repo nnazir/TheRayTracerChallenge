@@ -1,9 +1,11 @@
+import math
 from trtc.utils import EPSILON
 from trtc.matrix import Matrix
 from trtc.sphere import Sphere
 from trtc.ray import Ray
 from trtc.intersection import Intersection, IntersectionList
 from trtc.tuple import point, vector
+from trtc.plane import Plane
 
 
 def test_intersection_encapsulate_t_and_object():
@@ -131,3 +133,12 @@ def test_hit_offsets_point():
     comps = i.prepare_computations(r)
     assert comps.over_point.z < -EPSILON/2
     assert comps.point.z > comps.over_point.z
+
+
+def test_precompute_reflection_vector():
+    '''  Scenario: Precomputing the reflection vector  '''
+    shape = Plane()
+    r = Ray(point(0, 1, -1), vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = i.prepare_computations(r)
+    assert comps.reflectv == vector(0, math.sqrt(2)/2, math.sqrt(2)/2)

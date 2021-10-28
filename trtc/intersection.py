@@ -27,6 +27,7 @@ class Intersection():
         else:
             comps.inside = False        
         comps.over_point = comps.point + comps.normalv * EPSILON
+        comps.reflectv = ray.direction.reflect(comps.normalv)
 
         return comps
 
