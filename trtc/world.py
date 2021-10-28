@@ -80,3 +80,12 @@ class World():
         if h and h.t < distance:
             return True
         return False
+
+    def reflected_color(self, comps):
+        if comps.object.material.reflective == 0.0:
+            return color(0, 0, 0)
+
+        reflect_ray = Ray(comps.over_point, comps.reflectv)
+        reflect_color = self.color_at(reflect_ray)
+
+        return reflect_color * comps.object.material.reflective

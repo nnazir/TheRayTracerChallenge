@@ -1,8 +1,10 @@
+import math
 from trtc.matrix import Matrix
 from trtc.tuple import color, point, vector
 from trtc.light import PointLight
 from trtc.material import Material
 from trtc.sphere import Sphere
+from trtc.plane import Plane
 from trtc.world import World
 from trtc.ray import Ray
 from trtc.intersection import Computations, Intersection
@@ -175,3 +177,32 @@ def test_shade_hit_intersection_in_shadow():
     comps = i.prepare_computations(r)
     c = w.shade_hit(comps)
     assert c == color(0.1, 0.1, 0.1)
+
+
+def test_reflected_color_nonreflective_material():
+    '''  Scenario: The reflected color for a nonreflective material  '''
+    w = World()
+    w.default_world()
+    r = Ray(point(0, 0, 0), vector(0, 0, 1))
+    shape = w.objects[1]
+    shape.material.ambient = 1
+    i = Intersection(1, shape)
+    comps = i.prepare_computations(r)
+    c = w.reflected_color(comps)
+    assert c == color(0, 0, 0)
+
+
+def test_reflected_color_reflective_material():
+    '''  Scenario: The reflected color for a reflective material  '''
+    w = World()
+    w.default_world()
+    shape = Plane()
+    shape.material.reflective = 0.5
+    shape.transform = Matrix.translation(0, -1, 0)
+    w.objects.append(shape)
+    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = i.prepare_computations(r)
+    c = w.reflected_color(comps)
+    # Below color values slightly different than the book
+    assert c == color(0.19033, 0.23791, 0.14274)
