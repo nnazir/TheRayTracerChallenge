@@ -1,4 +1,5 @@
 import math
+import pytest
 from trtc.matrix import Matrix
 from trtc.tuple import color, point, vector
 from trtc.light import PointLight
@@ -180,7 +181,10 @@ def test_shade_hit_intersection_in_shadow():
 
 
 def test_reflected_color_nonreflective_material():
-    '''  Scenario: The reflected color for a nonreflective material  '''
+    '''  Scenario: The reflected color for a nonreflective material  
+         Show that when a ray strikes a nonreflective surrface, the
+         reflected_color function returns the color black.
+    '''
     w = World()
     w.default_world()
     r = Ray(point(0, 0, 0), vector(0, 0, 1))
@@ -193,7 +197,10 @@ def test_reflected_color_nonreflective_material():
 
 
 def test_reflected_color_reflective_material():
-    '''  Scenario: The reflected color for a reflective material  '''
+    '''  Scenario: The reflected color for a reflective material  
+         Show that reflected_color returns the color via reflection when the
+         struck surface is reflective.
+    '''
     w = World()
     w.default_world()
     shape = Plane()
@@ -206,3 +213,61 @@ def test_reflected_color_reflective_material():
     c = w.reflected_color(comps)
     # Below color values slightly different than the book
     assert c == color(0.19033, 0.23791, 0.14274)
+
+
+def test_shade_hit_reflective_material():
+    '''  Scenario: The shade_hit() with a reflective material  
+         Show that shade_hit incorporates teh reflected color into the
+         final color.
+    '''
+    w = World()
+    w.default_world()
+    shape = Plane()
+    shape.material.reflective = 0.5
+    shape.transform = Matrix.translation(0, -1, 0)
+    w.objects.append(shape)
+    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+    # Below color values slightly different than the book
+    assert c == color(0.87676, 0.92434, 0.82918)
+
+
+def test_mutually_reflective_surfaces():
+    '''  Scenario: color_at() with mutually reflective surfaces  
+         Show that your code handles infinite recursion caused by two objects
+         that mutually reflect rays between themselves.
+    '''
+    w = World()
+    w.default_world()
+    w.light = PointLight(point(0, 0, 0), color(1, 1, 1))
+    lower = Plane()
+    lower.material.reflective = 1.0
+    lower.transform = Matrix.translation(0, -1, 0)
+    w.objects.append(lower)
+    upper = Plane()
+    upper.material.reflective = 1.0
+    upper.transform = Matrix.translation(0, 1, 0)
+    w.objects.append(upper)
+    r = Ray(point(0, 0, 0), vector(0, 1, 0))
+    with pytest.raises(RecursionError):
+        w.color_at(r)
+
+
+def test_reflected_color_max_recursion():
+    '''  Scenario: The reflected color at the maximum recursive depth
+         Show that reflected_color returns without effect when invoked at
+         the limit of its recursive threshold.
+    '''
+    w = World()
+    w.default_world()
+    shape = Plane()
+    shape.material.reflective = 0.5
+    shape.transform = Matrix.translation(0, -1, 0)
+    w.objects.append(shape)
+    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = i.prepare_computations(r)
+    c = w.reflected_color(comps, 0)
+    assert c == color(0, 0, 0)

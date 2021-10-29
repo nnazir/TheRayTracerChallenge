@@ -46,14 +46,17 @@ class World():
         xs.sort_intersections()
         return xs
 
-    def shade_hit(self, comps):
+    def shade_hit(self, comps, remaining=4):
         '''
         Return the color at the intersection encapsulated by pomps in the given world
         '''
         shadowed = self.is_shadowed(comps.over_point)
-        return comps.object.material.lighting(comps.object, self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
+        surface = comps.object.material.lighting(
+            comps.object, self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
+        reflected = self.reflected_color(comps)
+        return surface + reflected
 
-    def color_at(self, ray):
+    def color_at(self, ray, remaining=4):
         '''
         Intersect the world with the given ray and then return the color at the 
         resulting intersection.
@@ -81,11 +84,13 @@ class World():
             return True
         return False
 
-    def reflected_color(self, comps):
+    def reflected_color(self, comps, remaining=4):
+        if remaining < 1:
+            return color(0, 0, 0)
         if comps.object.material.reflective == 0.0:
             return color(0, 0, 0)
 
         reflect_ray = Ray(comps.over_point, comps.reflectv)
-        reflect_color = self.color_at(reflect_ray)
+        reflect_color = self.color_at(reflect_ray, remaining-1)
 
         return reflect_color * comps.object.material.reflective
