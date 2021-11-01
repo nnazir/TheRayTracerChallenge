@@ -2,6 +2,7 @@ import pytest
 from trtc.matrix import Matrix
 from trtc import Ray, Sphere, point, vector
 from trtc.material import Material
+from trtc.sphere import glass_sphere
 from math import pi, sqrt
 
 
@@ -215,3 +216,11 @@ def test_sphere_assigned_material():
     m.ambient = 1
     s.material = m
     assert s.material == m
+
+
+def test_glass_sphere():
+    '''  Scenario: A helper for producing a sphere with a glassy material  '''
+    s = glass_sphere()
+    assert s.transform == Matrix.identity_matrix()
+    assert s.material.transparency == 1.0
+    assert s.material.refractive_index == 1.5

@@ -32,3 +32,13 @@ class Sphere(Shape):
 
     def local_normal_at(self, world_point):
         return vector(world_point.x, world_point.y, world_point.z)
+
+
+def glass_sphere():
+    '''
+    Helper function to produce a sphere with a glassy material
+    '''
+    sphere = Sphere()
+    sphere.material.transparency = 1.0
+    sphere.material.refractive_index = 1.5
+    return sphere
