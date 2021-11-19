@@ -6,11 +6,12 @@ class Intersection():
     def __init__(self, t, object) -> None:
         self.t = t
         self.object = object
+        self.containers = []    # objects encountered but not yet exited
 
     def __lt__(self, other):
         return self.t < other.t
 
-    def prepare_computations(self, ray):
+    def prepare_computations(self, ray, intersections=None):
         # Instantiate a data structure for storing some precomputed values
         comps = Computations()
         # Copy the intersection's properties, for convenience
@@ -20,14 +21,35 @@ class Intersection():
         comps.point = ray.position(comps.t)
         comps.eyev = -ray.direction
         comps.normalv = comps.object.normal_at(comps.point)
-        
+
         if comps.normalv.dot(comps.eyev) < 0:
             comps.inside = True
             comps.normalv = -comps.normalv
         else:
-            comps.inside = False        
+            comps.inside = False
         comps.over_point = comps.point + comps.normalv * EPSILON
         comps.reflectv = ray.direction.reflect(comps.normalv)
+
+        if intersections == None:
+            return comps
+
+        containers = []
+        for i in intersections.intersections:
+            if i == self:
+                if not containers:
+                    comps.n1 = 1.0
+                else:
+                    comps.n1 = containers[-1].material.refractive_index
+            if i.object in containers:
+                containers.remove(i.object)
+            else:
+                containers.append(i.object)
+            if i == self:
+                if not containers:      # if containers is empty
+                    comps.n2 = 1.0
+                else:
+                    comps.n2 = containers[-1].material.refractive_index
+                break
 
         return comps
 
@@ -63,3 +85,5 @@ class Computations():
         self.normalv = vector(0, 0, 0)
         self.inside = None
         self.over_point = point(0, 0, 0)
+        self.n1 = None
+        self.n2 = None
