@@ -94,3 +94,8 @@ class World():
         reflect_color = self.color_at(reflect_ray, remaining-1)
 
         return reflect_color * comps.object.material.reflective
+
+    def refracted_color(self, comps, remaining):
+        if comps.object.material.transparency == 0:
+            return color(0, 0, 0)
+        return color(1, 1, 1)

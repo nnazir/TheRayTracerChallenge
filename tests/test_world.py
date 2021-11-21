@@ -8,7 +8,7 @@ from trtc.sphere import Sphere
 from trtc.plane import Plane
 from trtc.world import World
 from trtc.ray import Ray
-from trtc.intersection import Computations, Intersection
+from trtc.intersection import Computations, Intersection, IntersectionList
 
 
 def test_creating_world():
@@ -270,4 +270,18 @@ def test_reflected_color_max_recursion():
     i = Intersection(math.sqrt(2), shape)
     comps = i.prepare_computations(r)
     c = w.reflected_color(comps, 0)
+    assert c == color(0, 0, 0)
+
+
+def test_refracted_color_opaque_surface():
+    '''  Scenario: The refracted color with an opaque surface  '''
+    w = World()
+    w.default_world()
+    shape = w.objects[0]
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    xs = IntersectionList()
+    xs.intersections.append(Intersection(4, shape))
+    xs.intersections.append(Intersection(6, shape))
+    comps = xs.intersections[0].prepare_computations(r, xs)
+    c = w.refracted_color(comps, 5)
     assert c == color(0, 0, 0)
