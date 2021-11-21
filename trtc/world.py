@@ -55,7 +55,9 @@ class World():
         surface = comps.object.material.lighting(
             comps.object, self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
         reflected = self.reflected_color(comps)
-        return surface + reflected
+        refracted = self.refracted_color(comps, remaining)
+
+        return surface + reflected + refracted
 
     def color_at(self, ray, remaining=4):
         '''
@@ -120,5 +122,3 @@ class World():
         refract_ray_color = self.color_at(
             refract_ray, remaining-1) * comps.object.material.transparency
         return refract_ray_color
-
-        return color(1, 1, 1)
