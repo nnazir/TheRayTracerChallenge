@@ -184,3 +184,13 @@ def test_finding_n1_and_n2():
     assert comps5.n2 == 1.0
 
 
+def test_computing_under_point():
+    '''  Scenario: The under point is offset below the surface  '''
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = glass_sphere()
+    shape.transform = Matrix.translation(0, 0, 1)
+    i = Intersection(5, shape)
+    xs = IntersectionList(i)
+    comps = i.prepare_computations(r, xs)
+    assert comps.under_point.z > EPSILON/2
+    assert comps.point.z < comps.under_point.z
