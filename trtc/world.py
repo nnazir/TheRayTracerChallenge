@@ -105,12 +105,20 @@ class World():
         '''
         if comps.object.material.transparency == 0 or remaining == 0:
             return color(0, 0, 0)
-        
+
         # Calculate total internal refraction
         n_ratio = comps.n1 / comps.n2
         cos_i = comps.eyev.dot(comps.normalv)
         sin2_t = n_ratio**2 * (1 - cos_i**2)
         if sin2_t > 1:
             return color(0, 0, 0)
+
+        cos_t = math.sqrt(1.0 - sin2_t)
+        direction = comps.normalv * \
+            (n_ratio * cos_i - cos_t) - comps.eyev * n_ratio
+        refract_ray = Ray(comps.under_point, direction)
+        refract_ray_color = self.color_at(
+            refract_ray, remaining-1) * comps.object.material.transparency
+        return refract_ray_color
 
         return color(1, 1, 1)

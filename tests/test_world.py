@@ -1,4 +1,5 @@
 import math
+from typing import Pattern
 import pytest
 from trtc.matrix import Matrix
 from trtc.tuple import color, point, vector
@@ -9,6 +10,7 @@ from trtc.plane import Plane
 from trtc.world import World
 from trtc.ray import Ray
 from trtc.intersection import Computations, Intersection, IntersectionList
+from trtc.pattern import TestPattern
 
 
 def test_creating_world():
@@ -315,3 +317,24 @@ def test_refracted_color_total_internal_refraction():
     comps = xs.intersections[1].prepare_computations(r, xs)
     c = w.refracted_color(comps, 5)
     assert c == color(0, 0, 0)
+
+
+def test_refracted_color_with_refracted_ray():
+    '''  Scenario: The refracted color with a refracted ray  '''
+    w = World()
+    w.default_world()
+    A = w.objects[0]
+    A.material.ambient = 1.0
+    A.material.pattern = TestPattern()
+    B = w.objects[1]
+    B.material.transparency = 1.0
+    B.material.refractive_index = 1.5
+    r = Ray(point(0, 0, 0.1), vector(0, 1, 0))
+    xs = IntersectionList()
+    xs.intersections.append(Intersection(-0.9899, A))
+    xs.intersections.append(Intersection(-0.4899, B))
+    xs.intersections.append(Intersection(0.4899, B))
+    xs.intersections.append(Intersection(0.9899, A))
+    comps = xs.intersections[2].prepare_computations(r, xs)
+    c = w.refracted_color(comps, 5)
+    assert c == color(0, 0.99887, 0.04722)
