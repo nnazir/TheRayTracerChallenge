@@ -1,5 +1,6 @@
+import math
 from .light import PointLight
-from .tuple import color, point
+from .tuple import Tuple, color, point
 from .sphere import Sphere
 from .matrix import Matrix
 from .ray import Ray
@@ -96,6 +97,20 @@ class World():
         return reflect_color * comps.object.material.reflective
 
     def refracted_color(self, comps, remaining):
-        if comps.object.material.transparency == 0:
+        '''
+        If the surface is opaque (comps.object.material.transparency = 0) or 
+        we've reached the max number of recursions (remaining = 0) or
+        total internal refraction > 1
+        return black
+        '''
+        if comps.object.material.transparency == 0 or remaining == 0:
             return color(0, 0, 0)
+        
+        # Calculate total internal refraction
+        n_ratio = comps.n1 / comps.n2
+        cos_i = comps.eyev.dot(comps.normalv)
+        sin2_t = n_ratio**2 * (1 - cos_i**2)
+        if sin2_t > 1:
+            return color(0, 0, 0)
+
         return color(1, 1, 1)

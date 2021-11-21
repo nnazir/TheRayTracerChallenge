@@ -181,7 +181,7 @@ def test_shade_hit_intersection_in_shadow():
 
 
 def test_reflected_color_nonreflective_material():
-    '''  Scenario: The reflected color for a nonreflective material  
+    '''  Scenario: The reflected color for a nonreflective material
          Show that when a ray strikes a nonreflective surrface, the
          reflected_color function returns the color black.
     '''
@@ -197,7 +197,7 @@ def test_reflected_color_nonreflective_material():
 
 
 def test_reflected_color_reflective_material():
-    '''  Scenario: The reflected color for a reflective material  
+    '''  Scenario: The reflected color for a reflective material
          Show that reflected_color returns the color via reflection when the
          struck surface is reflective.
     '''
@@ -216,7 +216,7 @@ def test_reflected_color_reflective_material():
 
 
 def test_shade_hit_reflective_material():
-    '''  Scenario: The shade_hit() with a reflective material  
+    '''  Scenario: The shade_hit() with a reflective material
          Show that shade_hit incorporates teh reflected color into the
          final color.
     '''
@@ -235,7 +235,7 @@ def test_shade_hit_reflective_material():
 
 
 def test_mutually_reflective_surfaces():
-    '''  Scenario: color_at() with mutually reflective surfaces  
+    '''  Scenario: color_at() with mutually reflective surfaces
          Show that your code handles infinite recursion caused by two objects
          that mutually reflect rays between themselves.
     '''
@@ -283,5 +283,35 @@ def test_refracted_color_opaque_surface():
     xs.intersections.append(Intersection(4, shape))
     xs.intersections.append(Intersection(6, shape))
     comps = xs.intersections[0].prepare_computations(r, xs)
+    c = w.refracted_color(comps, 5)
+    assert c == color(0, 0, 0)
+
+
+def test_refracted_color_max_recursive_depth():
+    '''  Scenario: The refracted color at the maximum recursive depth  '''
+    w = World()
+    w.default_world()
+    shape = w.objects[0]
+    shape.material.transparency = 1.0
+    shape.material.refractive_index = 1.5
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    xs = IntersectionList(Intersection(4, shape), Intersection(6, shape))
+    comps = xs.intersections[0].prepare_computations(r, xs)
+    c = w.refracted_color(comps, 0)
+    assert c == color(0, 0, 0)
+
+
+def test_refracted_color_total_internal_refraction():
+    '''  Scenario: The refracted color under totla internal reflection  '''
+    w = World()
+    w.default_world()
+    shape = w.objects[0]
+    shape.material.transparency = 1.0
+    shape.material.refractive_index = 1.5
+    r = Ray(point(0, 0, math.sqrt(2)/2), vector(0, 1, 0))
+    xs = IntersectionList()
+    xs.intersections.append(Intersection(-math.sqrt(2)/2, shape))
+    xs.intersections.append(Intersection(math.sqrt(2)/2, shape))
+    comps = xs.intersections[1].prepare_computations(r, xs)
     c = w.refracted_color(comps, 5)
     assert c == color(0, 0, 0)
