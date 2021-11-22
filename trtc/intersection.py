@@ -1,3 +1,4 @@
+import math
 from .tuple import point, vector
 from .utils import EPSILON
 
@@ -88,3 +89,16 @@ class Computations():
         self.over_point = point(0, 0, 0)
         self.n1 = None
         self.n2 = None
+
+    def schlick(self):
+        ''' Compute the Schlick approximation '''
+        cos = self.eyev.dot(self.normalv)
+        if self.n1 > self.n2:
+            n = self.n1 / self.n2
+            sin2_t = n**2 * (1.0 - cos**2)
+            if sin2_t > 1.0:
+                return 1.0
+            cos_t = math.sqrt(1.0 - sin2_t)
+            cos = cos_t
+        r0 = ((self.n1 - self.n2) / (self.n1 + self.n2)) ** 2
+        return r0 + (1 - r0) * (1 - cos)**5

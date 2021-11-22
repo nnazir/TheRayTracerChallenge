@@ -57,6 +57,11 @@ class World():
         reflected = self.reflected_color(comps)
         refracted = self.refracted_color(comps, remaining)
 
+        material = comps.object.material
+        if material.reflective > 0 and material.transparency > 0:
+            reflectance = comps.schlick()
+            return surface + reflected * reflectance + refracted * (1 - reflectance)
+            
         return surface + reflected + refracted
 
     def color_at(self, ray, remaining=4):

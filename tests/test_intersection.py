@@ -1,5 +1,5 @@
 import math
-from trtc.utils import EPSILON
+from trtc.utils import EPSILON, float_equal
 from trtc.matrix import Matrix
 from trtc.sphere import Sphere, glass_sphere
 from trtc.ray import Ray
@@ -194,3 +194,35 @@ def test_computing_under_point():
     comps = i.prepare_computations(r, xs)
     assert comps.under_point.z > EPSILON/2
     assert comps.point.z < comps.under_point.z
+
+
+def test_schlick_total_internal_reflection():
+    '''  Scenario: The Schlick approximation under total internal reflection  '''
+    shape = glass_sphere()
+    r = Ray(point(0, 0, math.sqrt(2)/2), vector(0, 1, 0))
+    xs = IntersectionList()
+    xs.intersections.append(Intersection(-math.sqrt(2)/2, shape))
+    xs.intersections.append(Intersection(math.sqrt(2)/2, shape))
+    comps = xs.intersections[1].prepare_computations(r, xs)
+    reflectance = comps.schlick()
+    assert reflectance == 1.0
+
+
+def test_schlick_perpendicular_angle():
+    '''  Scenario: The Schlick approximation with a perpendicular viewing angle  '''
+    shape = glass_sphere()
+    r = Ray(point(0, 0, 0), vector(0, 1, 0))
+    xs = IntersectionList(Intersection(-1, shape), Intersection(1, shape))
+    comps = xs.intersections[1].prepare_computations(r, xs)
+    reflectance = comps.schlick()
+    assert float_equal(reflectance, 0.04)
+
+
+def test_schlick_small_angle():
+    '''  Scenario: The Schlick approximation with small angle and n2 > n1  '''
+    shape = glass_sphere()
+    r = Ray(point(0, 0.99, -2), vector(0, 0, 1))
+    xs = IntersectionList(Intersection(1.8589, shape))
+    comps = xs.intersections[0].prepare_computations(r, xs)
+    reflectance = comps.schlick()
+    assert float_equal(reflectance, 0.48873)

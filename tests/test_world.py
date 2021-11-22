@@ -360,3 +360,25 @@ def test_shade_hit_with_transparent_material():
     comps = xs.intersections[0].prepare_computations(r, xs)
     c = w.shade_hit(comps, 5)
     assert c == color(0.93642, 0.68642, 0.68642)
+
+
+def test_shade_hit_reflective_transparent():
+    '''  Scenario: shade_hit() with a reflective, transparent material  '''
+    w = World()
+    w.default_world()
+    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+    floor = Plane()
+    floor.transform = Matrix.translation(0, -1, 0)
+    floor.material.reflective = 0.5
+    floor.material.transparency = 0.5
+    floor.material.refractive_index = 1.5
+    ball = Sphere()
+    ball.material.color = color(1, 0, 0)
+    ball.material.ambient = 0.5
+    ball.transform = Matrix.translation(0, -3.5, -0.5)
+    w.objects.append(floor)
+    w.objects.append(ball)
+    xs = IntersectionList(Intersection(math.sqrt(2), floor))
+    comps = xs.intersections[0].prepare_computations(r, xs)
+    c = w.shade_hit(comps, 5)
+    assert c == color(0.93391, 0.69643, 0.69243)
