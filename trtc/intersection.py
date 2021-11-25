@@ -87,8 +87,8 @@ class Computations():
         self.normalv = vector(0, 0, 0)
         self.inside = None
         self.over_point = point(0, 0, 0)
-        self.n1 = None
-        self.n2 = None
+        self.n1 = 1
+        self.n2 = 1
 
     def schlick(self):
         ''' Compute the Schlick approximation '''
