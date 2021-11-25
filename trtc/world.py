@@ -54,14 +54,14 @@ class World():
         shadowed = self.is_shadowed(comps.over_point)
         surface = comps.object.material.lighting(
             comps.object, self.light, comps.over_point, comps.eyev, comps.normalv, shadowed)
-        reflected = self.reflected_color(comps)
+        reflected = self.reflected_color(comps, remaining)
         refracted = self.refracted_color(comps, remaining)
 
         material = comps.object.material
         if material.reflective > 0 and material.transparency > 0:
             reflectance = comps.schlick()
             return surface + reflected * reflectance + refracted * (1 - reflectance)
-            
+
         return surface + reflected + refracted
 
     def color_at(self, ray, remaining=4):
@@ -74,7 +74,7 @@ class World():
         if hit is None:
             return color(0, 0, 0)
         comps = hit.prepare_computations(ray)
-        return self.shade_hit(comps)
+        return self.shade_hit(comps, remaining)
 
     def is_shadowed(self, p):
         '''
