@@ -13,6 +13,9 @@ class Cube(Shape):
         tmin = max(xtmin, ytmin, ztmin)
         tmax = min(xtmax, ytmax, ztmax)
 
+        if tmin > tmax:
+            return IntersectionList()
+
         return IntersectionList(Intersection(tmin, self), Intersection(tmax, self))
 
     def check_axis(self, origin, direction):
