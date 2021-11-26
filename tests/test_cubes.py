@@ -40,4 +40,24 @@ def test_ray_misses_cube():
     for t in tests:
         r = Ray(t[0], t[1])
         xs = c.local_intersect(r)
-        assert xs.count ==  0
+        assert xs.count == 0
+
+
+def test_normal_of_cube_surface():
+    '''  Scenario Outline: The normal on the surface of a cube  '''
+    c = Cube()
+    tests = [
+        [point(1, 0.5, -0.8), vector(1, 0, 0)],
+        [point(-1, -0.2, 0.9), vector(-1, 0, 0)],
+        [point(-0.4, 1, -0.1), vector(0, 1, 0)],
+        [point(0.3, -1, -0.7), vector(0, -1, 0)],
+        [point(-0.6, 0.3, 1), vector(0, 0, 1)],
+        [point(0.4, 0.4, -1), vector(0, 0, -1)],
+        [point(1, 1, 1), vector(1, 0, 0)],
+        [point(-1, -1, -1), vector(-1, 0, 0)],
+    ]
+
+    for t in tests:
+        p = t[0]
+        normal = c.local_normal_at(p)
+        assert normal == t[1]

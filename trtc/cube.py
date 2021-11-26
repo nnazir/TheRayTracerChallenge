@@ -1,5 +1,6 @@
 import math
 from trtc.utils import EPSILON
+from trtc.tuple import vector
 from trtc.shape import Shape
 from trtc.intersection import Intersection, IntersectionList
 
@@ -33,3 +34,11 @@ class Cube(Shape):
             tmin, tmax = tmax, tmin
 
         return tmin, tmax
+
+    def local_normal_at(self, p):
+        maxc = max(abs(p.x), abs(p.y), abs(p.z))
+        if maxc == abs(p.x):
+            return vector(p.x, 0, 0)
+        elif maxc == abs(p.y):
+            return vector(0, p.y, 0)
+        return vector(0, 0, p.z)
