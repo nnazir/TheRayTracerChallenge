@@ -36,3 +36,18 @@ def test_ray_strikes_cylinder():
         assert xs.count == 2
         assert float_equal(xs.intersections[0].t, t[2])
         assert float_equal(xs.intersections[1].t, t[3])
+
+
+def test_cylinder_normal():
+    '''  Scenario Outline: Normal vector on a cylinder  '''
+    cyl = Cylinder()
+    tests = [
+        # point, normal
+        [point(1, 0, 0), vector(1, 0, 0)],
+        [point(0, 5, -1), vector(0, 0, -1)],
+        [point(0, -2, 1), vector(0, 0, 1)],
+        [point(-1, 1, 0), vector(-1, 0, 0)],
+    ]
+    for t in tests:
+        n = cyl.normal_at(t[0])
+        assert n == t[1]
