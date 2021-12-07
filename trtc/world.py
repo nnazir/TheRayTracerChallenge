@@ -41,8 +41,11 @@ class World():
 
         xs = IntersectionList()
         for i in self.objects:
-            for j in i.intersect(ray).intersections:
-                xs.add(j)
+            try:
+                for j in i.intersect(ray).intersections:
+                    xs.add(j)
+            except AttributeError:
+                pass
 
         xs.sort_intersections()
         return xs
