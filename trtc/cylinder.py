@@ -1,3 +1,4 @@
+import math
 from .utils import float_equal
 from .tuple import point, vector
 from .ray import Ray
@@ -23,6 +24,7 @@ class Cylinder(Shape):
         if disc < 0:
             return IntersectionList()
 
-        # this is just a placeholder, to ensure the tests
-        # pass that expect the ray to miss.
-        return IntersectionList(Intersection(1, self))
+        t0 = (-b - math.sqrt(disc)) / (2 * a)
+        t1 = (-b + math.sqrt(disc)) / (2 * a)
+
+        return IntersectionList(Intersection(t0, self), Intersection(t1, self))
