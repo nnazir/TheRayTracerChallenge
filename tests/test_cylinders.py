@@ -78,3 +78,9 @@ def test_intersect_constrained_cylinder():
         r = Ray(t[0], direction)
         xs = cyl.local_intersect(r)
         assert xs.count == t[2]
+
+
+def test_default_cylinder_closed():
+    '''  Scenario: The default closed value for a cylinder '''
+    cyl = Cylinder()
+    assert cyl.closed == False
