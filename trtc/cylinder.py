@@ -1,5 +1,5 @@
 import math
-from .utils import float_equal
+from .utils import float_equal, EPSILON
 from .tuple import point, vector
 from .ray import Ray
 from .shape import Shape
@@ -48,6 +48,13 @@ class Cylinder(Shape):
         return xs
 
     def local_normal_at(self, p):
+        # compute teh square of the distance from the y axis
+        dist = p.x**2 + p.z**2
+
+        if dist < 1 and p.y >= self.maximum - EPSILON:
+            return vector(0, 1, 0)
+        elif dist < 1 and p.y <= self.minimum + EPSILON:
+            return vector(0, -1, 0)
         return vector(p.x, 0, p.z)
 
     def check_cap(self, ray, t):

@@ -104,3 +104,22 @@ def test_intersect_closed_cylinder_caps():
         r = Ray(t[0], direction)
         xs = cyl.local_intersect(r)
         assert xs.count == t[2]
+
+
+def test_cylinder_caps_normal():
+    '''  Scenario Outline: The normal vector on a cylinder's end caps  '''
+    cyl = Cylinder()
+    cyl.minimum = 1
+    cyl.maximum = 2
+    cyl.closed = True
+    tests = [
+        [point(0, 1, 0), vector(0, -1, 0)],
+        [point(0.5, 1, 0), vector(0, -1, 0)],
+        [point(0, 1, 0.5), vector(0, -1, 0)],
+        [point(0, 2, 0), vector(0, 1, 0)],
+        [point(0.5, 2, 0), vector(0, 1, 0)],
+        [point(0, 2, 0.5), vector(0, 1, 0)],
+    ]
+    for t in tests:
+        n = cyl.local_normal_at(t[0])
+        assert n == t[1]
