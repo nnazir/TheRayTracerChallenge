@@ -7,6 +7,11 @@ from .intersection import Intersection, IntersectionList
 
 
 class Cylinder(Shape):
+    def __init__(self) -> None:
+        super().__init__()
+        self.minimum = float('-inf')
+        self.maximum = float('inf')
+
     def local_intersect(self, ray) -> IntersectionList:
         a = ray.direction.x**2 + ray.direction.z**2
 
@@ -27,7 +32,20 @@ class Cylinder(Shape):
         t0 = (-b - math.sqrt(disc)) / (2 * a)
         t1 = (-b + math.sqrt(disc)) / (2 * a)
 
-        return IntersectionList(Intersection(t0, self), Intersection(t1, self))
+        if t0 > t1:
+            t0, t1 = t1, t0
+
+        xs = IntersectionList()
+        y0 = ray.origin.y + t0 * ray.direction.y
+        if self.minimum < y0 < self.maximum:
+            xs.add(Intersection(t0, self))
+
+        y1 = ray.origin.y + t1 * ray.direction.y
+        if self.minimum < y1 < self.maximum:
+            xs.add(Intersection(t1, self))
+
+        # return IntersectionList(Intersection(t0, self), Intersection(t1, self))
+        return xs
 
     def local_normal_at(self, p):
         return vector(p.x, 0, p.z)

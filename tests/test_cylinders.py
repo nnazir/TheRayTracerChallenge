@@ -51,3 +51,30 @@ def test_cylinder_normal():
     for t in tests:
         n = cyl.normal_at(t[0])
         assert n == t[1]
+
+
+def test_cylinder_default_min_max():
+    '''  Scenario: The default minimum and maximum for a cylinder  '''
+    cyl = Cylinder()
+    assert cyl.minimum == float('-inf')
+    assert cyl.maximum == float('inf')
+
+
+def test_intersect_constrained_cylinder():
+    '''  Scenario Outline: Intersecting a constrained cylinder  '''
+    cyl = Cylinder()
+    cyl.minimum = 1
+    cyl.maximum = 2
+    tests = [
+        [point(0, 1.5, 0), vector(0.1, 1, 0), 0],
+        [point(0, 3, -5), vector(0, 0, 1), 0],
+        [point(0, 0, -5), vector(0, 0, 1), 0],
+        [point(0, 2, -5), vector(0, 0, 1), 0],
+        [point(0, 1, -5), vector(0, 0, 1), 0],
+        [point(0, 1.5, -2), vector(0, 0, 1), 2],
+    ]
+    for t in tests:
+        direction = t[1].normalize()
+        r = Ray(t[0], direction)
+        xs = cyl.local_intersect(r)
+        assert xs.count == t[2]
