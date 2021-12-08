@@ -1,5 +1,5 @@
 from trtc.utils import float_equal
-from trtc.tuple import point, vector
+from trtc.tuple import Tuple, point, vector
 from trtc.ray import Ray
 from trtc.cylinder import Cylinder
 
@@ -84,3 +84,23 @@ def test_default_cylinder_closed():
     '''  Scenario: The default closed value for a cylinder '''
     cyl = Cylinder()
     assert cyl.closed == False
+
+
+def test_intersect_closed_cylinder_caps():
+    '''  Scenario Outline: Intersecting the caps of a closed cylinder  '''
+    cyl = Cylinder()
+    cyl.minimum = 1
+    cyl.maximum = 2
+    cyl.closed = True
+    tests = [
+        [point(0, 3, 0), vector(0, -1, 0), 2],
+        [point(0, 3, -2), vector(0, -1, 2), 2],
+        [point(0, 4, -2), vector(0, -1, 1), 2],
+        [point(0, 0, -2), vector(0, 1, 2), 2],
+        [point(0, -1, -2), vector(0, 1, 1), 2],
+    ]
+    for t in tests:
+        direction = t[1].normalize()
+        r = Ray(t[0], direction)
+        xs = cyl.local_intersect(r)
+        assert xs.count == t[2]
