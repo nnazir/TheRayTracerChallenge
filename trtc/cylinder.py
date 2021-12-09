@@ -1,7 +1,6 @@
 import math
 from .utils import float_equal, EPSILON
-from .tuple import point, vector
-from .ray import Ray
+from .tuple import vector
 from .shape import Shape
 from .intersection import Intersection, IntersectionList
 
