@@ -1,5 +1,6 @@
-from trtc.matrix import Matrix
-from trtc.shape import Shape
+from .matrix import Matrix
+from .shape import Shape
+from .intersection import IntersectionList
 
 
 class Group(Shape):
@@ -11,3 +12,13 @@ class Group(Shape):
     def add_child(self, shape):
         shape.parent = self
         self.shapes.append(shape)
+
+    def local_intersect(self, ray) -> IntersectionList:
+        xs = IntersectionList()
+
+        for shape in self.shapes:
+            for i in shape.intersect(ray).intersections:
+                xs.add(i)
+        xs.sort_intersections()
+
+        return xs
