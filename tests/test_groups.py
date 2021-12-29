@@ -49,3 +49,15 @@ def test_intersect_ray_nonempty_group():
     assert xs.intersections[1].object == s2
     assert xs.intersections[2].object == s1
     assert xs.intersections[3].object == s1
+
+
+def test_intersect_transformed_group():
+    '''  Scenario: Intersecting a transformed group  '''
+    g = Group()
+    g.transform = Matrix.scaling(2, 2, 2)
+    s = Sphere()
+    s.transform = Matrix.translation(5, 0, 0)
+    g.add_child(s)
+    r = Ray(point(10, 0, -10), vector(0, 0, 1))
+    xs = g.intersect(r)
+    assert xs.count == 2
