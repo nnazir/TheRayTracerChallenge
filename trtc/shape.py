@@ -9,6 +9,7 @@ from .matrix import Matrix
 from .material import Material
 from abc import ABC
 
+
 class Shape(ABC):
     """
     Abstract class for any shape to be derived from
@@ -18,6 +19,7 @@ class Shape(ABC):
         self.id = uuid.uuid4()
         self.transform = Matrix.identity_matrix()
         self.material = Material()
+        self.parent = None
 
     def intersect(self, ray):
         """

@@ -88,3 +88,9 @@ def test_compute_transformed_shape_normal():
     s.transform = m
     n = s.normal_at(point(0, sqrt(2)/2, -sqrt(2)/2))
     assert n == vector(0, 0.97014, -0.24254)
+
+
+def test_shape_parent_attr():
+    '''  Scenario: A shape has a parent attribute  '''
+    s = TestShape()
+    assert s.parent is None
