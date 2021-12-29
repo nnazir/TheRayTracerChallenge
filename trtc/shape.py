@@ -37,6 +37,12 @@ class Shape(ABC):
         world_normal.w = 0
         return world_normal.normalize()
 
+    def world_to_object(self, p):
+        """ Converts a world space point to object space """
+        if self.parent:
+            p = self.parent.world_to_object(p)
+        return self.transform.inverse() * p
+
 
 class TestShape(Shape):
     """

@@ -1,9 +1,12 @@
 from math import pi, sqrt
+import math
 from trtc.tuple import point, vector
 from trtc.material import Material
 from trtc.matrix import Matrix
 from trtc.ray import Ray
 from trtc.shape import Shape, TestShape
+from trtc.group import Group
+from trtc.sphere import Sphere
 
 
 def test_default_transformation():
@@ -94,3 +97,17 @@ def test_shape_parent_attr():
     '''  Scenario: A shape has a parent attribute  '''
     s = TestShape()
     assert s.parent is None
+
+
+def test_convert_point_from_world_to_object_space():
+    '''  Scenario: Converting a point from world to object space  '''
+    g1 = Group()
+    g1.transform = Matrix.rotation_y(math.pi/2)
+    g2 = Group()
+    g2.transform = Matrix.scaling(2, 2, 2)
+    g1.add_child(g2)
+    s = Sphere()
+    s.transform = Matrix.translation(5, 0, 0)
+    g2.add_child(s)
+    p = s.world_to_object(point(-2, 0, -10))
+    assert p == point(0, 0, -1)
