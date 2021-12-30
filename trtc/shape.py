@@ -43,6 +43,14 @@ class Shape(ABC):
             p = self.parent.world_to_object(p)
         return self.transform.inverse() * p
 
+    def normal_to_world(self, normal):
+        normal = self.transform.transpose().inverse() * normal
+        normal.w = 0
+        normal = normal.normalize()
+        if self.parent:
+            normal = self.parent.normal_to_world(normal)
+        return normal
+
 
 class TestShape(Shape):
     """
