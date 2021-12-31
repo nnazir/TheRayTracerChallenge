@@ -31,11 +31,9 @@ class Shape(ABC):
 
     def normal_at(self, p):
         """ Returns the normal at a certain point """
-        local_point = self.transform.inverse() * p
+        local_point = self.world_to_object(p)
         local_normal = self.local_normal_at(local_point)
-        world_normal = self.transform.inverse().transpose() * local_normal
-        world_normal.w = 0
-        return world_normal.normalize()
+        return self.normal_to_world(local_normal)
 
     def world_to_object(self, p):
         """ Converts a world space point to object space """
